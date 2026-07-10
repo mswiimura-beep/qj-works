@@ -563,7 +563,6 @@ h1 {
 
 .goodsCard {
   flex-direction: column;
-  justify-content: flex-end;
   color: var(--paper);
   background: #3d3937;
 }
@@ -576,6 +575,34 @@ h1 {
 .goodsCard h3,
 .goodsCard .textLink {
   color: var(--paper);
+}
+
+.goodsGallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.goodsGallery a {
+  display: grid;
+  gap: 8px;
+  color: var(--paper);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.goodsGallery img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--paper);
+}
+
+.goodsGallery a:hover img {
+  opacity: 0.82;
 }
 
 .bookCard {
