@@ -1,0 +1,20 @@
+{
+  "name": "がん相談サポートアプリ",
+  "short_name": "がん相談サポート",
+  "description": "がんに関する不安や疑問を整理し、医療者やがん相談支援センターへ相談しやすくする支援Webアプリです。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fff3e3",
+  "theme_color": "#fdf0df",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "./assets/app-icon.svg",
+      "sizes": "180x180",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
