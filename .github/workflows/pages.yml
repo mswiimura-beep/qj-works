@@ -1,0 +1,60 @@
+name: Deploy QJ-Works to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Prepare static site
+        run: |
+          rm -rf _site
+          rsync -av \
+            --exclude '.git/' \
+            --exclude '.github/' \
+            --exclude '.DS_Store' \
+            --exclude '.gitignore' \
+            --exclude 'README.md' \
+            --exclude 'DESIGN.md' \
+            --exclude 'preview-*' \
+            --exclude 'assets/coconala-*' \
+            --exclude 'assets/motorcycle-shooting.*' \
+            --exclude 'assets/og-image.jpg' \
+            --exclude 'assets/og-image.png' \
+            --exclude 'assets/workflow-background.jpg' \
+            --exclude 'assets/workflow-background.png' \
+            --exclude 'apps/gan-soudan-support/assets/app-icon.png' \
+            --exclude 'apps/gan-soudan-support/output/' \
+            ./ _site/
+          touch _site/.nojekyll
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
