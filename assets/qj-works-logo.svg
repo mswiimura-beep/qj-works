@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" role="img" aria-labelledby="title desc">
+  <title id="title">QJ-Works</title>
+  <desc id="desc">Yellow QJ-Works logo with a subtle water reflection.</desc>
+  <defs>
+    <linearGradient id="logoGold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe84a"/>
+      <stop offset="1" stop-color="#f2cf14"/>
+    </linearGradient>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe84a" stop-opacity=".45"/>
+      <stop offset=".85" stop-color="#ffe84a" stop-opacity=".04"/>
+      <stop offset="1" stop-color="#ffe84a" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="ripple" x="-10%" y="-10%" width="120%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency=".02 .12" numOctaves="2" seed="8" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+  <rect width="720" height="340" fill="none"/>
+  <text x="34" y="138" font-family="Arial Black, Impact, sans-serif" font-size="104" font-weight="900" letter-spacing="0" fill="url(#logoGold)">QJ-Works</text>
+  <line x1="36" y1="172" x2="684" y2="172" stroke="#ffe84a" stroke-width="3" stroke-opacity=".8"/>
+  <g transform="translate(0 344) scale(1 -1)" opacity=".78" filter="url(#ripple)">
+    <text x="34" y="138" font-family="Arial Black, Impact, sans-serif" font-size="104" font-weight="900" letter-spacing="0" fill="url(#fade)">QJ-Works</text>
+  </g>
+</svg>
