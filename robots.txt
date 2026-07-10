@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mswiimura-beep.github.io/qj-works/sitemap.xml
