@@ -123,6 +123,11 @@
           <h2>最近のお知らせ</h2>
         </div>
         <div class="newsList">
+          <article class="noteNews" id="noteNews" hidden>
+            <time id="noteNewsDate"></time>
+            <h3 id="noteNewsTitle"></h3>
+            <a class="textLink" id="noteNewsLink" href="https://note.com/kjiimura" target="_blank" rel="noopener">noteで読む</a>
+          </article>
           <article>
             <time datetime="2026-07-10">2026.07.10</time>
             <h3>相談サポートアプリの動作テスト協力者を募集しています</h3>
@@ -147,19 +152,16 @@
             <span class="marker">01</span>
             <h2>小さな業務アプリ制作</h2>
             <p>手順、チェックリスト、入力補助をまとめて、ブラウザで使える仕事用アプリにします。</p>
-            <p class="servicePrice">80,000円〜</p>
           </article>
           <article>
             <span class="marker">02</span>
             <h2>転記・集計の自動化</h2>
             <p>予約、問い合わせ、請求、売上集計、未入金確認など、同じ入力をくり返す作業を減らします。</p>
-            <p class="servicePrice">30,000円〜</p>
           </article>
           <article>
             <span class="marker">03</span>
             <h2>バイク走行動画撮影</h2>
             <p>バイクに乗りながら、ツーリングや前を走るライダーの走行シーンを撮影します。</p>
-            <p class="servicePrice">8,000円〜</p>
           </article>
         </div>
       </section>
@@ -246,6 +248,17 @@
             </div>
           </article>
         </div>
+        <section class="noteHighlights" aria-labelledby="noteHighlightsTitle">
+          <div class="noteHighlightsHeader">
+            <p class="productKind">NOTE</p>
+            <h3 id="noteHighlightsTitle">最近の発信</h3>
+            <p>医療、仕事、暮らしについて書いています。</p>
+          </div>
+          <div class="noteHighlightsList" id="noteHighlightsList" aria-live="polite">
+            <p class="noteLoading">最新の記事を読み込んでいます。</p>
+          </div>
+          <a class="textLink noteAllLink" href="https://note.com/kjiimura" target="_blank" rel="noopener">noteの記事一覧を見る</a>
+        </section>
       </section>
 
       <section class="section priceSection" id="price">
@@ -318,5 +331,6 @@
       <p>小さな業務アプリ制作 / 転記・集計の自動化 / 映像・創作</p>
       <p class="footerOwner">運営者: QwenJi</p>
     </footer>
+    <script src="note-feed.js?v=note-feed-20260711" defer></script>
   </body>
 </html>

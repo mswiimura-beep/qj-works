@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: '0 0,6,12,18 * * *'
   workflow_dispatch:
 
 defaults:
@@ -30,6 +32,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      - name: Update note highlights
+        run: python3 scripts/update_note_highlights.py
       - name: Prepare static site
         run: |
           rm -rf _site

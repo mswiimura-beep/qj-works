@@ -348,15 +348,6 @@ h1 {
   font-weight: 500;
 }
 
-.introGrid .servicePrice {
-  margin: 24px 0 0;
-  color: var(--text) !important;
-  font-family: Georgia, "Hiragino Mincho ProN", "Yu Mincho", serif;
-  font-size: 25px;
-  line-height: 1.2;
-  font-weight: 700;
-}
-
 .section {
   width: min(1120px, calc(100% - 48px));
   margin: 0 auto;
@@ -832,6 +823,72 @@ h1 {
   font-weight: 700 !important;
 }
 
+.noteHighlights {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.36fr) minmax(0, 1fr) auto;
+  gap: 32px;
+  align-items: start;
+  margin-top: 56px;
+  padding-top: 48px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.noteHighlightsHeader h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 25px;
+  line-height: 1.45;
+}
+
+.noteHighlightsHeader p:not(.productKind) {
+  margin: 14px 0 0;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.noteHighlightsList {
+  display: grid;
+  gap: 1px;
+  border: 1px solid var(--border-subtle);
+  background: var(--border-subtle);
+}
+
+.noteHighlightsList a,
+.noteLoading {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  padding: 16px 18px;
+  color: var(--text);
+  background: var(--background);
+  font-weight: 700;
+  line-height: 1.55;
+  text-decoration: none;
+}
+
+.noteHighlightsList a:hover {
+  background: var(--paper);
+}
+
+.noteHighlightsList time {
+  color: var(--text-tertiary);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.noteLoading {
+  display: block;
+  margin: 0;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.noteAllLink {
+  align-self: center;
+  white-space: nowrap;
+}
+
 .contactSection {
   border-top: 1px solid var(--border-subtle);
 }
@@ -938,6 +995,7 @@ h1 {
 
   .introGrid,
   .newsBand,
+  .noteHighlights,
   .aboutLayout,
   .shootingLayout,
   .split,
@@ -953,6 +1011,11 @@ h1 {
   .newsList article {
     grid-template-columns: 1fr;
     gap: 10px;
+  }
+
+  .noteHighlights {
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
 
   .introGrid article,
@@ -1064,6 +1127,11 @@ h1 {
   .serviceGrid,
   .priceGrid {
     grid-template-columns: 1fr;
+  }
+
+  .noteHighlightsList a {
+    grid-template-columns: 1fr;
+    gap: 6px;
   }
 
   .button {
