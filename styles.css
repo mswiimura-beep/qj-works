@@ -798,14 +798,14 @@ h1 {
 
 .priceGrid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 1px;
   border: 1px solid var(--border-medium);
   background: var(--border-medium);
 }
 
 .priceCard {
-  min-height: 284px;
+  min-height: 320px;
   padding: 32px;
   background: var(--background);
 }
@@ -821,6 +821,13 @@ h1 {
   font-size: 31px;
   line-height: 1.2 !important;
   font-weight: 700 !important;
+}
+
+.priceDetail {
+  margin: 16px 0 0;
+  color: var(--text-tertiary) !important;
+  font-size: 13px;
+  line-height: 1.65 !important;
 }
 
 .noteHighlights {
