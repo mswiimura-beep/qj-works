@@ -1,2 +1,3 @@
-# qj-works
-QJ-Works homepage for small business apps, task automation, and motorcycle ride video shooting.
+# QJ Works
+
+QJ Worksの公式ホームページです。青森県内の事業所や個人事業主を対象に、現場確認を含むヒアリングを通じて、AI・デジタル技術を活用した業務改善とDXを支援します。
