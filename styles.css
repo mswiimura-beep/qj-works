@@ -13,7 +13,92 @@
   --border-subtle: #e7e5e4;
   --border-medium: #d6d3d1;
   --ink: #1c1917;
+  --header-background: rgba(250, 250, 249, 0.94);
+  --hero-start: rgba(28, 25, 23, 0.98);
+  --hero-middle: rgba(28, 25, 23, 0.86);
+  --hero-end: rgba(68, 64, 60, 0.82);
+  --accent: #78716c;
   --focus-ring: 0 0 0 2px #fafaf9, 0 0 0 4px #78716c;
+}
+
+:root[data-time-theme="morning"] {
+  --background: #fff9ef;
+  --surface: #f8eddd;
+  --surface-raised: #f1dfc7;
+  --paper: #fffdf8;
+  --border-subtle: #eadbc8;
+  --border-medium: #d7bea1;
+  --stone: #a46236;
+  --stone-dark: #714025;
+  --header-background: rgba(255, 249, 239, 0.94);
+  --hero-start: rgba(65, 43, 35, 0.98);
+  --hero-middle: rgba(124, 71, 42, 0.88);
+  --hero-end: rgba(224, 142, 72, 0.78);
+  --accent: #d78342;
+}
+
+:root[data-time-theme="dawn"] {
+  --background: #f8f4f5;
+  --surface: #eee7eb;
+  --surface-raised: #e4dbe2;
+  --paper: #fffafb;
+  --border-subtle: #dfd4dc;
+  --border-medium: #c9b9c5;
+  --stone: #886a82;
+  --stone-dark: #58465f;
+  --header-background: rgba(248, 244, 245, 0.94);
+  --hero-start: rgba(24, 29, 49, 0.99);
+  --hero-middle: rgba(76, 69, 92, 0.92);
+  --hero-end: rgba(211, 139, 139, 0.8);
+  --accent: #d49a98;
+}
+
+:root[data-time-theme="day"] {
+  --background: #f4f9fb;
+  --surface: #e8f1f4;
+  --surface-raised: #dce9ed;
+  --paper: #fbfefe;
+  --border-subtle: #d6e4e8;
+  --border-medium: #bfd3da;
+  --stone: #3d7687;
+  --stone-dark: #285766;
+  --header-background: rgba(244, 249, 251, 0.94);
+  --hero-start: rgba(23, 48, 59, 0.98);
+  --hero-middle: rgba(36, 83, 99, 0.88);
+  --hero-end: rgba(80, 146, 165, 0.8);
+  --accent: #62afc5;
+}
+
+:root[data-time-theme="evening"] {
+  --background: #fbf5f1;
+  --surface: #f2e6e1;
+  --surface-raised: #ead7d0;
+  --paper: #fffaf7;
+  --border-subtle: #e5d3cc;
+  --border-medium: #d2b8ae;
+  --stone: #9a5a5c;
+  --stone-dark: #693d4d;
+  --header-background: rgba(251, 245, 241, 0.94);
+  --hero-start: rgba(39, 30, 48, 0.98);
+  --hero-middle: rgba(91, 52, 70, 0.9);
+  --hero-end: rgba(205, 104, 75, 0.8);
+  --accent: #d77c63;
+}
+
+:root[data-time-theme="night"] {
+  --background: #eef2f7;
+  --surface: #e0e7f0;
+  --surface-raised: #d2dce8;
+  --paper: #f7f9fc;
+  --border-subtle: #ccd6e2;
+  --border-medium: #afbdce;
+  --stone: #526f95;
+  --stone-dark: #314967;
+  --header-background: rgba(238, 242, 247, 0.94);
+  --hero-start: rgba(10, 18, 33, 0.99);
+  --hero-middle: rgba(23, 38, 64, 0.94);
+  --hero-end: rgba(46, 68, 102, 0.88);
+  --accent: #718eb5;
 }
 
 * {
@@ -30,6 +115,7 @@ body {
   font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
   background: var(--background);
   letter-spacing: 0;
+  transition: background-color 900ms ease, color 500ms ease;
 }
 
 img {
@@ -69,7 +155,7 @@ button:focus-visible {
   gap: 24px;
   min-height: 76px;
   padding: 12px clamp(20px, 5vw, 72px);
-  background: rgba(250, 250, 249, 0.94);
+  background: var(--header-background);
   border-bottom: 1px solid var(--border-subtle);
   backdrop-filter: blur(12px);
 }
@@ -120,7 +206,8 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(28, 25, 23, 0.98) 0%, rgba(28, 25, 23, 0.86) 54%, rgba(68, 64, 60, 0.82) 100%);
+    linear-gradient(90deg, var(--hero-start) 0%, var(--hero-middle) 54%, var(--hero-end) 100%);
+  transition: background 1200ms ease;
 }
 
 .heroInner {
@@ -198,6 +285,77 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+.weatherCard {
+  position: absolute;
+  right: clamp(20px, 5vw, 72px);
+  bottom: 34px;
+  z-index: 3;
+  width: min(300px, calc(100% - 40px));
+  padding: 18px 20px 15px;
+  color: var(--paper);
+  background: rgba(12, 16, 22, 0.38);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.14);
+}
+
+.weatherCardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.weatherLabel,
+.weatherPlace,
+.weatherSummary,
+.weatherTemps,
+.weatherSource {
+  margin: 0;
+}
+
+.weatherLabel {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.weatherPlace {
+  margin-top: 3px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.weatherIcon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.weatherSummary {
+  margin-top: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.weatherTemps {
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.weatherSource {
+  margin-top: 10px;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 10px;
+}
+
+.weatherSource a {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.36);
 }
 
 .button {
@@ -997,7 +1155,7 @@ h1 {
 
   .heroBackdrop {
     background:
-      linear-gradient(90deg, rgba(28, 25, 23, 0.96) 0%, rgba(68, 64, 60, 0.86) 100%);
+      linear-gradient(90deg, var(--hero-start) 0%, var(--hero-end) 100%);
   }
 
   .introGrid,
@@ -1071,12 +1229,18 @@ h1 {
 
 @media (max-width: 560px) {
   .hero {
-    min-height: 610px;
+    min-height: 760px;
   }
 
   .heroInner {
     width: min(100% - 32px, 1040px);
-    padding: 70px 0 90px;
+    padding: 70px 0 190px;
+  }
+
+  .weatherCard {
+    right: 16px;
+    bottom: 24px;
+    width: calc(100% - 32px);
   }
 
   h1 {
