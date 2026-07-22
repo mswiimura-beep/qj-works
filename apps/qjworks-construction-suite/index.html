@@ -1,0 +1,2152 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1f5f57">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <title>QJworks 施工管理一気通貫デモ</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17211f;
+      --muted: #66746f;
+      --line: #d6dfdb;
+      --paper: #f7f8f4;
+      --soft: #edf4f1;
+      --brand: #1f5f57;
+      --brand-dark: #123e3a;
+      --blue: #285f86;
+      --gold: #c7832d;
+      --red: #b13d35;
+      --white: #fff;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-size: 17px;
+      letter-spacing: 0;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 248px 1fr;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      background: var(--brand-dark);
+      color: var(--white);
+      padding: 18px 14px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 18px;
+    }
+
+    .brand {
+      display: grid;
+      gap: 4px;
+      padding: 8px 8px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, .18);
+    }
+
+    .brand strong {
+      font-size: 24px;
+      line-height: 1.1;
+    }
+
+    .brand span {
+      color: rgba(255, 255, 255, .72);
+      font-weight: 700;
+    }
+
+    .nav {
+      display: grid;
+      align-content: start;
+      gap: 8px;
+    }
+
+    .nav button {
+      min-height: 58px;
+      border-radius: 8px;
+      background: transparent;
+      color: rgba(255, 255, 255, .82);
+      font-size: 18px;
+      font-weight: 900;
+      text-align: left;
+      padding: 10px 12px;
+    }
+
+    .nav button.active {
+      background: rgba(255, 255, 255, .14);
+      color: var(--white);
+      outline: 1px solid rgba(255, 255, 255, .22);
+    }
+
+    .sidebarFoot {
+      display: grid;
+      gap: 8px;
+      color: rgba(255, 255, 255, .72);
+      font-size: 13px;
+      line-height: 1.55;
+      padding: 12px 8px 4px;
+      border-top: 1px solid rgba(255, 255, 255, .18);
+    }
+
+    .main {
+      min-width: 0;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(247, 248, 244, .94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+      padding: 14px 20px;
+    }
+
+    .topbarInner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.18;
+    }
+
+    .topMeta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .pill {
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 7px 11px;
+      background: var(--soft);
+      color: var(--brand);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .pill.warn {
+      background: #fff2d9;
+      color: #80500b;
+    }
+
+    .pill.danger {
+      background: #f7e0dc;
+      color: var(--red);
+    }
+
+    .content {
+      padding: 18px 20px 40px;
+      display: grid;
+      gap: 18px;
+      max-width: 1480px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .view {
+      display: none;
+      min-width: 0;
+    }
+
+    .view.active {
+      display: grid;
+      gap: 18px;
+    }
+
+    .sectionHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 14px;
+    }
+
+    .sectionHeader h2 {
+      font-size: 24px;
+    }
+
+    .sectionHeader p {
+      color: var(--muted);
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .stats {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .twoCol {
+      grid-template-columns: minmax(0, 1.2fr) minmax(360px, .8fr);
+      align-items: start;
+    }
+
+    .threeCol {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card,
+    .panel,
+    .listItem {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .card {
+      padding: 16px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .statValue {
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .statLabel {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .panel {
+      overflow: hidden;
+    }
+
+    .panelHead {
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfa;
+    }
+
+    .panelHead h3 {
+      font-size: 20px;
+    }
+
+    .panelBody {
+      padding: 14px 16px 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .toolbar input,
+    .toolbar select {
+      max-width: 260px;
+    }
+
+    .toolbar .hiddenFile {
+      display: none;
+    }
+
+    label {
+      display: grid;
+      gap: 6px;
+      color: var(--ink);
+      font-weight: 900;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid #bfcac6;
+      border-radius: 8px;
+      background: var(--white);
+      padding: 10px 12px;
+      color: var(--ink);
+    }
+
+    textarea {
+      min-height: 92px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: 3px solid rgba(199, 131, 45, .28);
+      border-color: var(--brand);
+    }
+
+    .button {
+      min-height: 54px;
+      border-radius: 8px;
+      padding: 12px 15px;
+      font-size: 17px;
+      font-weight: 900;
+      background: var(--ink);
+      color: var(--white);
+      text-align: center;
+    }
+
+    .easyGrid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .easyButton {
+      min-height: 118px;
+      border: 2px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      padding: 14px;
+      display: grid;
+      align-content: center;
+      gap: 8px;
+      text-align: left;
+    }
+
+    .easyButton strong {
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .easyButton span {
+      color: var(--muted);
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .easyButton.primary {
+      background: var(--brand);
+      border-color: var(--brand);
+      color: #fff;
+    }
+
+    .easyButton.primary span {
+      color: rgba(255, 255, 255, .82);
+    }
+
+    .currentSite {
+      border: 2px solid #bed0ca;
+      border-radius: 8px;
+      background: #fff;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .currentSite strong {
+      font-size: 24px;
+      line-height: 1.25;
+    }
+
+    .button.primary {
+      background: var(--brand);
+    }
+
+    .button.gold {
+      background: var(--gold);
+      color: #201406;
+    }
+
+    .button.light {
+      background: var(--soft);
+      color: var(--brand);
+      border: 1px solid #cdd9d5;
+    }
+
+    .button.danger {
+      background: #f5dfdc;
+      color: var(--red);
+    }
+
+    .projectList {
+      display: grid;
+      gap: 10px;
+      max-height: 760px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .listItem {
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+      text-align: left;
+      width: 100%;
+      color: var(--ink);
+    }
+
+    .listItem.active {
+      outline: 3px solid rgba(31, 95, 87, .22);
+      border-color: var(--brand);
+    }
+
+    .listTop {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .listTop strong {
+      font-size: 18px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .miniGrid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .field {
+      background: var(--soft);
+      border-radius: 8px;
+      padding: 10px;
+      display: grid;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .field span {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .field strong {
+      word-break: break-word;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(96px, 1fr));
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .flowStep {
+      min-height: 86px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      background: #fafbf8;
+      display: grid;
+      gap: 8px;
+      align-content: start;
+    }
+
+    .flowStep.done {
+      background: var(--soft);
+      border-color: #bed0ca;
+    }
+
+    .flowStep.current {
+      background: #fff4df;
+      border-color: var(--gold);
+    }
+
+    .flowStep button {
+      width: 100%;
+      min-height: 34px;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--ink);
+      font-weight: 900;
+      text-align: left;
+    }
+
+    .progressBar {
+      height: 9px;
+      border-radius: 999px;
+      background: #e5ebe8;
+      overflow: hidden;
+    }
+
+    .progressBar span {
+      display: block;
+      height: 100%;
+      width: var(--value, 0%);
+      background: var(--brand);
+    }
+
+    .taskList,
+    .timeline,
+    .photoGrid,
+    .moneyRows,
+    .calendarGrid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .taskRow,
+    .timelineRow,
+    .moneyRow {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .taskRow {
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+    }
+
+    .taskRow input[type="checkbox"] {
+      width: 30px;
+      min-height: 30px;
+    }
+
+    .taskRow.done strong {
+      color: var(--muted);
+      text-decoration: line-through;
+    }
+
+    .timelineRow {
+      grid-template-columns: 104px 1fr 108px;
+      align-items: center;
+    }
+
+    .calendarGrid {
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+    }
+
+    .calendarHead,
+    .calendarDay {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      min-height: 78px;
+      padding: 8px;
+      display: grid;
+      align-content: start;
+      gap: 6px;
+    }
+
+    .calendarHead {
+      min-height: 36px;
+      place-items: center;
+      color: var(--muted);
+      font-weight: 900;
+      background: #fbfcfa;
+    }
+
+    .calendarDay.outside {
+      background: #f1f4f1;
+      color: var(--muted);
+    }
+
+    .calendarDay.today {
+      outline: 3px solid rgba(199, 131, 45, .28);
+      border-color: var(--gold);
+    }
+
+    .dayNumber {
+      font-weight: 900;
+    }
+
+    .calendarEvent {
+      border-radius: 6px;
+      padding: 5px 6px;
+      background: var(--soft);
+      color: var(--brand-dark);
+      font-size: 12px;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .calendarEvent.task {
+      background: #eef3f8;
+      color: var(--blue);
+    }
+
+    .calendarEvent.end {
+      background: #fff2d9;
+      color: #80500b;
+    }
+
+    .floatingWeather {
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      z-index: 25;
+      width: min(320px, calc(100vw - 28px));
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .96);
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+      backdrop-filter: blur(8px);
+    }
+
+    .floatingWeatherHead {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .floatingWeatherHead strong {
+      font-size: 14px;
+    }
+
+    .floatingWeather .button {
+      min-height: 34px;
+      padding: 6px 9px;
+      font-size: 13px;
+      width: auto;
+    }
+
+    .weatherMiniList {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .weatherMiniDay {
+      background: var(--soft);
+      border-radius: 8px;
+      padding: 8px;
+      display: grid;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .weatherMiniDay strong {
+      font-size: 15px;
+    }
+
+    .weatherMiniDay span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .photoGrid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .photoBox {
+      border: 2px dashed #b8c5c0;
+      border-radius: 8px;
+      min-height: 220px;
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+      align-content: start;
+      background: #fff;
+    }
+
+    .photoBox img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: 8px;
+      background: var(--soft);
+      display: block;
+    }
+
+    .photoBox .placeholder {
+      min-height: 130px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--soft);
+      color: var(--muted);
+      font-weight: 900;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .photoActions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .hiddenFile {
+      display: none;
+    }
+
+    .formGrid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .wide {
+      grid-column: 1 / -1;
+    }
+
+    .moneyRow {
+      grid-template-columns: 1fr 90px 120px 44px;
+      align-items: end;
+    }
+
+    .right {
+      text-align: right;
+    }
+
+    .reportPreview {
+      border: 1px solid #9ea9a4;
+      background: #fff;
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+      line-height: 1.6;
+    }
+
+    .reportPreview h3 {
+      text-align: center;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 8px;
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 118px;
+      z-index: 30;
+      background: var(--ink);
+      color: var(--white);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-weight: 900;
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: .18s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1120px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        height: auto;
+        grid-template-rows: auto auto;
+      }
+
+      .sidebarFoot {
+        display: none;
+      }
+
+      .nav {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .nav button {
+        text-align: center;
+      }
+
+      .twoCol,
+      .easyGrid,
+      .stats,
+      .threeCol {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      body {
+        font-size: 16px;
+      }
+
+      .sidebar {
+        padding: 12px 10px;
+      }
+
+      .brand {
+        padding-bottom: 10px;
+      }
+
+      .nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .nav button {
+        min-height: 62px;
+      }
+
+      .topbar {
+        padding: 12px;
+      }
+
+      .topbarInner {
+        display: grid;
+      }
+
+      .topMeta {
+        justify-content: start;
+      }
+
+      .content {
+        padding: 12px 10px 28px;
+      }
+
+      .sectionHeader {
+        display: grid;
+      }
+
+      .currentSite {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar input,
+      .toolbar select {
+        max-width: none;
+      }
+
+      .miniGrid,
+      .formGrid,
+      .photoGrid,
+      .moneyRow,
+      .timelineRow,
+      .taskRow {
+        grid-template-columns: 1fr;
+      }
+
+      .calendarGrid {
+        grid-template-columns: repeat(7, minmax(88px, 1fr));
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+
+      .moneyRow {
+        align-items: stretch;
+      }
+
+      .flow {
+        grid-template-columns: repeat(8, 118px);
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .photoActions {
+        grid-template-columns: 1fr;
+      }
+
+      .floatingWeather {
+        right: 10px;
+        bottom: 10px;
+      }
+
+      .toast {
+        bottom: 112px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <strong>QJworks</strong>
+        <span>施工管理一気通貫デモ</span>
+      </div>
+      <nav class="nav" aria-label="画面切り替え">
+        <button class="active" data-view="dashboard">ホーム</button>
+        <button data-view="projects">現場</button>
+        <button data-view="schedule">作業</button>
+        <button data-view="planning">予定</button>
+        <button data-view="photos">写真</button>
+        <button data-view="reports">報告</button>
+        <button data-view="money">お金</button>
+      </nav>
+      <div class="sidebarFoot">
+        <strong>商品例</strong>
+        <span>中小工務店向けに、紙・電話・写真・Excelに分かれた情報を一つの流れにまとめるWebアプリです。</span>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <div class="topbarInner">
+          <div>
+            <h1 id="pageTitle">全体ダッシュボード</h1>
+            <p class="muted" id="pageLead">相談から請求までの詰まりを見える化します。</p>
+          </div>
+          <div class="topMeta">
+            <span class="pill" id="saveState">保存済み</span>
+            <span class="pill warn" id="todayCount">本日 0件</span>
+            <span class="pill danger" id="lateCount">遅れ 0件</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="content">
+        <section class="view active" id="dashboard">
+          <div class="sectionHeader">
+            <div>
+              <h2>ホーム</h2>
+              <p>現場でよく使う操作を大きく並べています。</p>
+            </div>
+            <button class="button primary" id="addProjectTop">新しい現場を作る</button>
+          </div>
+          <section class="currentSite">
+            <div>
+              <span class="muted">いま選んでいる現場</span>
+              <strong id="currentSiteName">未選択</strong>
+            </div>
+            <button class="button light" data-view-jump="projects">現場を選ぶ</button>
+          </section>
+          <div class="easyGrid">
+            <button class="easyButton primary" data-view-jump="photos">
+              <strong>写真を入れる</strong>
+              <span>施工前・施工後</span>
+            </button>
+            <button class="easyButton" data-view-jump="reports">
+              <strong>報告を書く</strong>
+              <span>作業内容を入力</span>
+            </button>
+            <button class="easyButton" data-view-jump="schedule">
+              <strong>今日の作業</strong>
+              <span>残り作業を確認</span>
+            </button>
+            <button class="easyButton" data-view-jump="planning">
+              <strong>予定を見る</strong>
+              <span>現場日程の確認</span>
+            </button>
+            <button class="easyButton" data-view-jump="money">
+              <strong>お金の確認</strong>
+              <span>請求漏れ防止</span>
+            </button>
+          </div>
+          <div class="grid stats" id="stats"></div>
+          <div class="grid twoCol">
+            <section class="panel">
+              <div class="panelHead">
+                <h3>本日・今週の作業</h3>
+                <span class="pill" id="weekLabel"></span>
+              </div>
+              <div class="panelBody timeline" id="dashboardTimeline"></div>
+            </section>
+            <section class="panel">
+              <div class="panelHead">
+                <h3>対応漏れチェック</h3>
+                <button class="button light" id="copySummary">要約をコピー</button>
+              </div>
+              <div class="panelBody taskList" id="riskList"></div>
+            </section>
+          </div>
+          <section class="panel">
+            <div class="panelHead">
+              <h3>データ管理</h3>
+              <span class="pill">ブラウザ内保存</span>
+            </div>
+            <div class="panelBody">
+              <p class="muted">検証用データをバックアップできます。本運用ではGoogle Driveなどの会社管理ストレージへ保存する設計に切り替えます。</p>
+              <div class="toolbar">
+                <button class="button light" id="exportData">バックアップを書き出す</button>
+                <button class="button light" id="importData">バックアップを読み込む</button>
+                <button class="button danger" id="resetDemo">デモデータに戻す</button>
+                <input class="hiddenFile" id="importFile" type="file" accept="application/json,.json">
+              </div>
+            </div>
+          </section>
+          <div class="grid stats billingStats" id="billingStats"></div>
+        </section>
+
+        <section class="view" id="projects">
+          <div class="sectionHeader">
+            <div>
+              <h2>現場</h2>
+              <p>現場を選ぶ、または新しく作ります。</p>
+            </div>
+            <button class="button primary" id="addProject">新しい現場を作る</button>
+          </div>
+          <div class="grid twoCol">
+            <section class="panel">
+              <div class="panelHead">
+                <h3>現場一覧</h3>
+                <div class="toolbar">
+                  <input id="search" placeholder="検索">
+                  <select id="statusFilter">
+                    <option value="all">すべて</option>
+                    <option>相談</option>
+                    <option>見積</option>
+                    <option>受注</option>
+                    <option>施工中</option>
+                    <option>報告待ち</option>
+                    <option>請求待ち</option>
+                    <option>完了</option>
+                  </select>
+                </div>
+              </div>
+              <div class="panelBody projectList" id="projectList"></div>
+            </section>
+            <section class="panel">
+              <div class="panelHead">
+                <h3>現場の内容</h3>
+                <span class="pill" id="selectedStatus"></span>
+              </div>
+              <div class="panelBody">
+                <div class="formGrid">
+                  <label>現場名
+                    <input id="detailName">
+                  </label>
+                  <label>状態
+                    <select id="detailStatus"></select>
+                  </label>
+                  <label>顧客名
+                    <input id="detailCustomer">
+                  </label>
+                  <label>電話
+                    <input id="detailPhone">
+                  </label>
+                  <label class="wide">現場住所
+                    <input id="detailAddress">
+                  </label>
+                  <label>担当
+                    <input id="detailOwner">
+                  </label>
+                  <label>着工予定
+                    <input id="detailStart" type="date">
+                  </label>
+                  <label>完了予定
+                    <input id="detailEnd" type="date">
+                  </label>
+                  <label>見積金額
+                    <input id="detailEstimate" type="number" min="0">
+                  </label>
+                  <label class="wide">メモ
+                    <textarea id="detailMemo"></textarea>
+                  </label>
+                </div>
+                <div class="flow" id="flow"></div>
+                <div class="toolbar">
+                  <button class="button primary" id="saveProject">保存</button>
+                  <button class="button light" id="duplicateProject">複製</button>
+                  <button class="button danger" id="deleteProject">削除</button>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="schedule">
+          <div class="sectionHeader">
+            <div>
+              <h2>作業</h2>
+              <p>今日やること、残っていることを確認します。</p>
+            </div>
+            <button class="button primary" id="addTask">作業を追加</button>
+          </div>
+          <div class="grid twoCol">
+            <section class="panel">
+              <div class="panelHead">
+                <h3>予定表</h3>
+                <span class="pill" id="scheduleProjectName"></span>
+              </div>
+              <div class="panelBody timeline" id="timeline"></div>
+            </section>
+            <section class="panel">
+              <div class="panelHead">
+                <h3>残っている作業</h3>
+                <button class="button light" id="clearDoneTasks">終わった作業を隠す</button>
+              </div>
+              <div class="panelBody taskList" id="taskList"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="planning">
+          <div class="sectionHeader">
+            <div>
+              <h2>予定</h2>
+              <p>カレンダーで現場の予定を確認します。天気は右下に出ます。</p>
+            </div>
+          </div>
+          <section class="panel">
+            <div class="panelHead">
+              <h3>カレンダー</h3>
+              <span class="pill" id="calendarLabel"></span>
+            </div>
+            <div class="panelBody">
+              <div class="calendarGrid" id="calendarGrid"></div>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="photos">
+          <div class="sectionHeader">
+            <div>
+              <h2>現場写真</h2>
+              <p>写真を撮る、またはファイルから選びます。</p>
+            </div>
+            <span class="pill" id="photoProjectName"></span>
+          </div>
+          <div class="photoGrid" id="photoGrid"></div>
+        </section>
+
+        <section class="view" id="reports">
+          <div class="sectionHeader">
+            <div>
+              <h2>日報・完了報告</h2>
+              <p>作業内容を入れて報告文を作ります。</p>
+            </div>
+            <button class="button gold" id="copyReport">報告文をコピー</button>
+          </div>
+          <div class="grid twoCol">
+            <section class="panel">
+              <div class="panelHead">
+                <h3>報告を書く</h3>
+                <span class="pill" id="reportProjectName"></span>
+              </div>
+              <div class="panelBody">
+                <div class="formGrid">
+                  <label>作業日
+                    <input id="dailyDate" type="date">
+                  </label>
+                  <label>作業者
+                    <input id="dailyWorker">
+                  </label>
+                  <label class="wide">作業内容
+                    <textarea id="dailyWork"></textarea>
+                  </label>
+                  <label class="wide">お客様へ伝えること
+                    <textarea id="dailyCustomerNote"></textarea>
+                  </label>
+                  <label class="wide">社内申し送り
+                    <textarea id="dailyInternalNote"></textarea>
+                  </label>
+                </div>
+                <button class="button primary" id="saveDaily">日報を保存</button>
+              </div>
+            </section>
+            <section class="panel">
+              <div class="panelHead">
+                <h3>報告書プレビュー</h3>
+                <button class="button light" id="markReported">報告済みにする</button>
+              </div>
+              <div class="panelBody">
+                <article class="reportPreview" id="reportPreview"></article>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="money">
+          <div class="sectionHeader">
+            <div>
+              <h2>見積・請求</h2>
+              <p>請求漏れがないか確認します。</p>
+            </div>
+            <button class="button primary" id="addMoneyRow">金額を追加</button>
+          </div>
+          <div class="grid twoCol">
+            <section class="panel">
+              <div class="panelHead">
+                <h3>明細</h3>
+                <span class="pill" id="moneyProjectName"></span>
+              </div>
+              <div class="panelBody moneyRows" id="moneyRows"></div>
+            </section>
+            <section class="panel">
+              <div class="panelHead">
+                <h3>請求確認</h3>
+                <button class="button light" id="copyInvoice">請求メモをコピー</button>
+              </div>
+              <div class="panelBody">
+                <div class="miniGrid">
+                  <div class="field">
+                    <span>小計</span>
+                    <strong id="subtotal">0円</strong>
+                  </div>
+                  <div class="field">
+                    <span>税込</span>
+                    <strong id="taxedTotal">0円</strong>
+                  </div>
+                  <div class="field">
+                    <span>請求状態</span>
+                    <strong id="billingStatusText"></strong>
+                  </div>
+                  <div class="field">
+                    <span>未請求</span>
+                    <strong id="unbilledAmount">0円</strong>
+                  </div>
+                </div>
+                <div class="toolbar">
+                  <button class="button primary" id="markBilled">請求済みにする</button>
+                  <button class="button light" id="markPaid">入金済みにする</button>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <aside class="floatingWeather" aria-label="今日と明日の天気">
+    <div class="floatingWeatherHead">
+      <strong>天気</strong>
+      <button class="button light" id="refreshWeather">更新</button>
+    </div>
+    <div class="weatherMiniList" id="weatherMiniList"></div>
+    <p class="muted" id="weatherSource">取得中</p>
+  </aside>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const storageKey = "qjworks-construction-suite-v1";
+    const statuses = ["相談", "見積", "受注", "施工中", "報告待ち", "請求待ち", "完了"];
+    const flowSteps = ["相談", "現調", "見積", "受注", "材料", "工程", "施工", "報告"];
+    const today = new Date().toISOString().slice(0, 10);
+    const yen = new Intl.NumberFormat("ja-JP", { style: "currency", currency: "JPY", maximumFractionDigits: 0 });
+    const weatherLocation = { name: "青森市", latitude: 40.8244, longitude: 140.7400 };
+
+    const seed = {
+      selectedId: "p1",
+      view: "dashboard",
+      projects: [
+        {
+          id: "p1",
+          name: "佐藤様邸 キッチン改修",
+          customer: "佐藤 恵子",
+          phone: "090-1111-2222",
+          address: "青森市中央 1-2-3",
+          owner: "飯村",
+          status: "施工中",
+          start: "2026-07-24",
+          end: "2026-07-31",
+          estimate: 680000,
+          billed: false,
+          paid: false,
+          memo: "既存キッチン撤去、配管調整、内装補修。お客様は午前連絡希望。",
+          completedSteps: ["相談", "現調", "見積", "受注", "材料", "工程"],
+          tasks: [
+            { id: "t1", date: "2026-07-24", title: "養生・既存撤去", owner: "佐藤", done: true },
+            { id: "t2", date: "2026-07-25", title: "給排水位置調整", owner: "木村", done: false },
+            { id: "t3", date: "2026-07-29", title: "キッチン据付", owner: "飯村", done: false }
+          ],
+          photos: { before: [], during: [], after: [] },
+          daily: {
+            date: "2026-07-22",
+            worker: "飯村・佐藤",
+            work: "既存キッチンの寸法確認、搬入経路確認、養生範囲の確認を実施。",
+            customerNote: "着工日は7月24日午前9時予定です。水道停止は当日2時間程度です。",
+            internalNote: "駐車場所は建物裏。搬入時は玄関右側の植木鉢を移動。"
+          },
+          money: [
+            { id: "m1", item: "既存撤去・処分", qty: 1, price: 90000 },
+            { id: "m2", item: "キッチン本体・部材", qty: 1, price: 420000 },
+            { id: "m3", item: "給排水・内装補修", qty: 1, price: 170000 }
+          ]
+        },
+        {
+          id: "p2",
+          name: "山田アパート 雨樋交換",
+          customer: "山田不動産",
+          phone: "017-333-4444",
+          address: "弘前市駅前 4-5-6",
+          owner: "工藤",
+          status: "報告待ち",
+          start: "2026-07-21",
+          end: "2026-07-22",
+          estimate: 185000,
+          billed: false,
+          paid: false,
+          memo: "施工写真をまとめて管理会社へ送付。",
+          completedSteps: ["相談", "現調", "見積", "受注", "材料", "工程", "施工"],
+          tasks: [
+            { id: "t4", date: "2026-07-21", title: "足場確認", owner: "工藤", done: true },
+            { id: "t5", date: "2026-07-22", title: "完了写真送付", owner: "飯村", done: false }
+          ],
+          photos: { before: [], during: [], after: [] },
+          daily: {
+            date: "2026-07-22",
+            worker: "工藤",
+            work: "北側雨樋を交換し、排水確認まで完了。",
+            customerNote: "作業完了しました。強雨時に再度排水状況をご確認ください。",
+            internalNote: "請求前に施工後写真を3枚添付。"
+          },
+          money: [
+            { id: "m4", item: "雨樋交換作業", qty: 1, price: 145000 },
+            { id: "m5", item: "廃材処分", qty: 1, price: 40000 }
+          ]
+        },
+        {
+          id: "p3",
+          name: "田中様邸 玄関ドア修理",
+          customer: "田中 守",
+          phone: "090-5555-1212",
+          address: "八戸市根城 7-8-9",
+          owner: "飯村",
+          status: "見積",
+          start: "2026-07-28",
+          end: "2026-07-28",
+          estimate: 72000,
+          billed: false,
+          paid: false,
+          memo: "鍵受け調整、ドアクローザー交換候補。見積回答待ち。",
+          completedSteps: ["相談", "現調"],
+          tasks: [
+            { id: "t6", date: "2026-07-23", title: "見積送付", owner: "飯村", done: false }
+          ],
+          photos: { before: [], during: [], after: [] },
+          daily: { date: today, worker: "", work: "", customerNote: "", internalNote: "" },
+          money: [
+            { id: "m6", item: "ドアクローザー交換", qty: 1, price: 42000 },
+            { id: "m7", item: "建付け調整", qty: 1, price: 30000 }
+          ]
+        }
+      ]
+    };
+
+    let state = load();
+    let saveTimer;
+    let currentWeather = [];
+
+    const $ = (id) => document.getElementById(id);
+
+    function load() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+        if (saved && Array.isArray(saved.projects)) {
+          saved.projects.forEach(normalizeProject);
+          return saved;
+        }
+      } catch {}
+      return JSON.parse(JSON.stringify(seed));
+    }
+
+    function save() {
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(state));
+        $("saveState").textContent = "保存済み";
+      } catch {
+        $("saveState").textContent = "保存失敗";
+        showToast("写真が多い可能性があります。バックアップを書き出してください");
+      }
+    }
+
+    function markDirty() {
+      $("saveState").textContent = "保存中";
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(save, 220);
+    }
+
+    function showToast(text) {
+      const toast = $("toast");
+      toast.textContent = text;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 1600);
+    }
+
+    function currentProject() {
+      return state.projects.find((project) => project.id === state.selectedId) || state.projects[0];
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;"
+      }[char]));
+    }
+
+    function textWithBreaks(value, fallback = "") {
+      return escapeHtml(value || fallback).replaceAll("\n", "<br>");
+    }
+
+    function normalizeProject(project) {
+      project.photos = project.photos || { before: [], during: [], after: [] };
+      ["before", "during", "after"].forEach((key) => {
+        if (!Array.isArray(project.photos[key])) project.photos[key] = [];
+      });
+      project.tasks = Array.isArray(project.tasks) ? project.tasks : [];
+      project.money = Array.isArray(project.money) ? project.money : [];
+      project.completedSteps = Array.isArray(project.completedSteps) ? project.completedSteps : [];
+      project.daily = project.daily || { date: today, worker: "", work: "", customerNote: "", internalNote: "" };
+      return project;
+    }
+
+    function setView(view) {
+      const titles = {
+        dashboard: ["ホーム", "現場でよく使う操作を大きく並べています。"],
+        projects: ["現場", "現場名、住所、担当、予定をまとめます。"],
+        schedule: ["作業", "今日やることと残っている作業を確認します。"],
+        planning: ["予定", "月間予定を確認します。天気は右下に出ます。"],
+        photos: ["写真", "施工前・施工中・施工後の写真を入れます。"],
+        reports: ["報告", "作業内容を入力して報告文を作ります。"],
+        money: ["お金", "見積、請求、入金を確認します。"]
+      };
+      if (!titles[view]) view = "dashboard";
+      state.view = view;
+      document.querySelectorAll(".view").forEach((el) => el.classList.toggle("active", el.id === view));
+      document.querySelectorAll(".nav button").forEach((button) => button.classList.toggle("active", button.dataset.view === view));
+      $("pageTitle").textContent = titles[view][0];
+      $("pageLead").textContent = titles[view][1];
+      render();
+      save();
+    }
+
+    function formatDate(value) {
+      if (!value) return "未定";
+      return value.replaceAll("-", "/");
+    }
+
+    function formatDateKey(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function dayLabel(value) {
+      const date = new Date(value + "T00:00:00");
+      return `${date.getMonth() + 1}/${date.getDate()}`;
+    }
+
+    function daysBetween(date) {
+      return Math.ceil((new Date(date + "T00:00:00") - new Date(today + "T00:00:00")) / 86400000);
+    }
+
+    function statusClass(project) {
+      if (project.status === "完了") return "pill";
+      if (project.status === "報告待ち" || project.status === "請求待ち") return "pill warn";
+      const lateTask = project.tasks.some((task) => !task.done && daysBetween(task.date) < 0);
+      return lateTask ? "pill danger" : "pill";
+    }
+
+    function projectTotal(project) {
+      return project.money.reduce((sum, row) => sum + Number(row.qty || 0) * Number(row.price || 0), 0);
+    }
+
+    function render() {
+      const project = currentProject();
+      if (!project) return;
+      renderTopMeta();
+      renderStats();
+      renderProjectList();
+      renderProjectDetail();
+      renderSchedule();
+      renderPlanning();
+      renderPhotos();
+      renderReport();
+      renderMoney();
+    }
+
+    function renderTopMeta() {
+      $("currentSiteName").textContent = currentProject()?.name || "未選択";
+      const todayTasks = state.projects.flatMap((project) => project.tasks.map((task) => ({ project, task }))).filter((item) => item.task.date === today && !item.task.done);
+      const lateTasks = state.projects.flatMap((project) => project.tasks.map((task) => ({ project, task }))).filter((item) => daysBetween(item.task.date) < 0 && !item.task.done);
+      $("todayCount").textContent = `本日 ${todayTasks.length}件`;
+      $("lateCount").textContent = `遅れ ${lateTasks.length}件`;
+    }
+
+    function renderStats() {
+      const active = state.projects.filter((p) => p.status !== "完了").length;
+      const reporting = state.projects.filter((p) => p.status === "報告待ち").length;
+      const unbilled = state.projects.filter((p) => !p.billed && ["請求待ち", "報告待ち", "完了"].includes(p.status)).length;
+      const amount = state.projects.filter((p) => !p.billed).reduce((sum, p) => sum + projectTotal(p), 0);
+      $("stats").innerHTML = [
+        ["進行中", `${active}件`, "完了以外の案件"],
+        ["報告待ち", `${reporting}件`, "写真・日報の送付待ち"]
+      ].map(([label, value, note]) => `
+        <div class="card">
+          <div class="statLabel">${label}</div>
+          <div class="statValue">${value}</div>
+          <p class="muted">${note}</p>
+        </div>
+      `).join("");
+
+      $("billingStats").innerHTML = [
+        ["未請求", `${unbilled}件`, "請求漏れ候補"],
+        ["未請求額", yen.format(amount), "概算税込前"]
+      ].map(([label, value, note]) => `
+        <div class="card">
+          <div class="statLabel">${label}</div>
+          <div class="statValue">${value}</div>
+          <p class="muted">${note}</p>
+        </div>
+      `).join("");
+
+      $("weekLabel").textContent = `${formatDate(today)}時点`;
+      const allTasks = state.projects
+        .flatMap((project) => project.tasks.map((task) => ({ project, task })))
+        .sort((a, b) => a.task.date.localeCompare(b.task.date))
+        .slice(0, 8);
+      $("dashboardTimeline").innerHTML = allTasks.map(({ project, task }) => timelineRow(project, task)).join("");
+
+      const risks = [];
+      state.projects.forEach((project) => {
+        if (project.status === "報告待ち") risks.push([project, "完了報告が未送付です"]);
+        if (!project.billed && ["請求待ち", "完了"].includes(project.status)) risks.push([project, "請求処理が残っています"]);
+        project.tasks.filter((task) => !task.done && daysBetween(task.date) < 0).forEach((task) => risks.push([project, `${task.title} が遅れています`]));
+      });
+      $("riskList").innerHTML = risks.length ? risks.map(([project, text]) => `
+        <div class="taskRow">
+          <span class="pill danger">確認</span>
+          <strong>${escapeHtml(text)}<br><span class="muted">${escapeHtml(project.name)}</span></strong>
+          <button class="button light" data-select="${project.id}" data-jump="projects">開く</button>
+        </div>
+      `).join("") : `<div class="card"><strong>対応漏れはありません</strong><p class="muted">この状態を保てれば十分です。</p></div>`;
+    }
+
+    function renderProjectList() {
+      const query = ($("search")?.value || "").trim();
+      const filter = $("statusFilter")?.value || "all";
+      const projects = state.projects.filter((project) => {
+        const matchText = [project.name, project.customer, project.address, project.owner].join(" ").includes(query);
+        const matchStatus = filter === "all" || project.status === filter;
+        return matchText && matchStatus;
+      });
+      $("projectList").innerHTML = projects.map((project) => `
+        <button class="listItem ${project.id === state.selectedId ? "active" : ""}" data-select="${project.id}">
+          <div class="listTop">
+            <strong>${escapeHtml(project.name)}</strong>
+            <span class="${statusClass(project)}">${project.status}</span>
+          </div>
+          <div class="muted">${escapeHtml(project.customer)} / ${escapeHtml(project.owner)}</div>
+          <div class="progressBar" style="--value:${Math.round(project.completedSteps.length / flowSteps.length * 100)}%"><span></span></div>
+          <div class="miniGrid">
+            <div class="field"><span>着工</span><strong>${formatDate(project.start)}</strong></div>
+            <div class="field"><span>金額</span><strong>${yen.format(projectTotal(project))}</strong></div>
+          </div>
+        </button>
+      `).join("");
+    }
+
+    function renderProjectDetail() {
+      const project = currentProject();
+      if (!project) return;
+      $("selectedStatus").textContent = project.status;
+      $("detailStatus").innerHTML = statuses.map((status) => `<option ${status === project.status ? "selected" : ""}>${status}</option>`).join("");
+      $("detailName").value = project.name;
+      $("detailCustomer").value = project.customer;
+      $("detailPhone").value = project.phone;
+      $("detailAddress").value = project.address;
+      $("detailOwner").value = project.owner;
+      $("detailStart").value = project.start;
+      $("detailEnd").value = project.end;
+      $("detailEstimate").value = project.estimate;
+      $("detailMemo").value = project.memo;
+      $("flow").innerHTML = flowSteps.map((step) => {
+        const done = project.completedSteps.includes(step);
+        const current = !done && step === flowSteps.find((item) => !project.completedSteps.includes(item));
+        return `
+          <div class="flowStep ${done ? "done" : ""} ${current ? "current" : ""}">
+            <button data-flow="${step}">${done ? "完了" : "未完了"}<br>${step}</button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function timelineRow(project, task) {
+      const diff = daysBetween(task.date);
+      const stateText = task.done ? "完了" : diff < 0 ? "遅れ" : diff === 0 ? "本日" : `${diff}日後`;
+      const cls = task.done ? "pill" : diff < 0 ? "pill danger" : diff === 0 ? "pill warn" : "pill";
+      return `
+        <div class="timelineRow">
+          <strong>${formatDate(task.date)}</strong>
+          <div><strong>${escapeHtml(task.title)}</strong><br><span class="muted">${escapeHtml(project.name)} / ${escapeHtml(task.owner)}</span></div>
+          <span class="${cls}">${stateText}</span>
+        </div>
+      `;
+    }
+
+    function renderSchedule() {
+      const project = currentProject();
+      $("scheduleProjectName").textContent = project.name;
+      $("timeline").innerHTML = project.tasks.sort((a, b) => a.date.localeCompare(b.date)).map((task) => timelineRow(project, task)).join("");
+      $("taskList").innerHTML = project.tasks.map((task) => `
+        <div class="taskRow ${task.done ? "done" : ""}">
+          <input type="checkbox" data-task-done="${task.id}" ${task.done ? "checked" : ""}>
+          <strong>${escapeHtml(task.title)}<br><span class="muted">${formatDate(task.date)} / ${escapeHtml(task.owner)}</span></strong>
+          <button class="button danger" data-task-delete="${task.id}">削除</button>
+        </div>
+      `).join("");
+    }
+
+    function calendarEventsByDate() {
+      const events = new Map();
+      const add = (date, html) => {
+        if (!date) return;
+        const rows = events.get(date) || [];
+        rows.push(html);
+        events.set(date, rows);
+      };
+      state.projects.forEach((project) => {
+        add(project.start, `<div class="calendarEvent">着工 ${escapeHtml(project.name)}</div>`);
+        add(project.end, `<div class="calendarEvent end">完了 ${escapeHtml(project.name)}</div>`);
+        project.tasks.forEach((task) => {
+          add(task.date, `<div class="calendarEvent task">${task.done ? "済" : "作業"} ${escapeHtml(task.title)}</div>`);
+        });
+      });
+      return events;
+    }
+
+    function renderCalendar() {
+      const base = new Date(today + "T00:00:00");
+      const year = base.getFullYear();
+      const month = base.getMonth();
+      const first = new Date(year, month, 1);
+      const start = new Date(year, month, 1 - first.getDay());
+      const monthLast = new Date(year, month + 1, 0).getDate();
+      const weeks = Math.ceil((first.getDay() + monthLast) / 7);
+      const cells = weeks * 7;
+      const events = calendarEventsByDate();
+      const weekday = ["日", "月", "火", "水", "木", "金", "土"];
+      $("calendarLabel").textContent = `${year}年${month + 1}月`;
+      const heads = weekday.map((day) => `<div class="calendarHead">${day}</div>`).join("");
+      const days = Array.from({ length: cells }, (_, index) => {
+        const date = new Date(start);
+        date.setDate(start.getDate() + index);
+        const key = formatDateKey(date);
+        const outside = date.getMonth() !== month;
+        const isToday = key === today;
+        const eventRows = events.get(key) || [];
+        const rows = eventRows.slice(0, 3).join("");
+        const more = eventRows.length > 3 ? `<div class="muted">他${eventRows.length - 3}件</div>` : "";
+        return `
+          <div class="calendarDay ${outside ? "outside" : ""} ${isToday ? "today" : ""}">
+            <div class="dayNumber">${date.getDate()}</div>
+            ${rows}
+            ${more}
+          </div>
+        `;
+      }).join("");
+      $("calendarGrid").innerHTML = heads + days;
+    }
+
+    function weatherName(code) {
+      if (code === 0) return ["晴れ", "晴"];
+      if ([1, 2].includes(code)) return ["晴れ時々曇り", "薄"];
+      if (code === 3) return ["曇り", "曇"];
+      if ([45, 48].includes(code)) return ["霧", "霧"];
+      if ([51, 53, 55, 56, 57].includes(code)) return ["霧雨", "霧"];
+      if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return ["雨", "雨"];
+      if ([71, 73, 75, 77, 85, 86].includes(code)) return ["雪", "雪"];
+      if ([95, 96, 99].includes(code)) return ["雷雨", "雷"];
+      return ["確認", "天"];
+    }
+
+    function fallbackWeather() {
+      return Array.from({ length: 7 }, (_, index) => {
+        const date = new Date(today + "T00:00:00");
+        date.setDate(date.getDate() + index);
+        const codes = [1, 2, 61, 3, 0, 63, 2];
+        const rain = [20, 30, 70, 40, 10, 80, 35];
+        return {
+          date: formatDateKey(date),
+          code: codes[index],
+          max: 25 + (index % 3),
+          min: 18 + (index % 4),
+          rain: rain[index]
+        };
+      });
+    }
+
+    function renderWeather() {
+      const rows = (currentWeather.length ? currentWeather : fallbackWeather()).slice(0, 2).map((day, index) => {
+        const [name, icon] = weatherName(Number(day.code));
+        const rain = Number(day.rain || 0);
+        return `
+          <div class="weatherMiniDay">
+            <strong>${index === 0 ? "今日" : "明日"} ${icon}</strong>
+            <span>${name}</span>
+            <span>${Math.round(day.max)}°/${Math.round(day.min)}° 降水${day.rain ?? "-"}%</span>
+            <span>${rain >= 60 ? "外作業注意" : "確認"}</span>
+          </div>
+        `;
+      }).join("");
+      $("weatherMiniList").innerHTML = rows;
+    }
+
+    async function fetchWeather() {
+      $("weatherSource").textContent = "取得中";
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${weatherLocation.latitude}&longitude=${weatherLocation.longitude}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FTokyo`;
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("weather");
+        const data = await response.json();
+        currentWeather = data.daily.time.map((date, index) => ({
+          date,
+          code: data.daily.weather_code[index],
+          max: data.daily.temperature_2m_max[index],
+          min: data.daily.temperature_2m_min[index],
+          rain: data.daily.precipitation_probability_max[index]
+        }));
+        $("weatherSource").textContent = `${weatherLocation.name} / 自動取得`;
+      } catch {
+        currentWeather = fallbackWeather();
+        $("weatherSource").textContent = `${weatherLocation.name} / デモ表示`;
+      }
+      renderWeather();
+    }
+
+    function renderPlanning() {
+      renderCalendar();
+      renderWeather();
+    }
+
+    function renderPhotos() {
+      const project = currentProject();
+      $("photoProjectName").textContent = project.name;
+      const defs = [
+        ["before", "施工前"],
+        ["during", "施工中"],
+        ["after", "施工後"]
+      ];
+      $("photoGrid").innerHTML = defs.map(([key, label]) => {
+        const photos = project.photos[key] || [];
+        return `
+          <section class="photoBox">
+            <h3>${label}</h3>
+            ${photos[0]?.src ? `<img src="${photos[0].src}" alt="${label}写真"><p class="muted">${escapeHtml(photos[0].note || label)}</p>` : `<div class="placeholder">${label}<br>写真未登録</div>`}
+            <input class="hiddenFile" id="camera-${key}" type="file" accept="image/*" capture="environment">
+            <input class="hiddenFile" id="file-${key}" type="file" accept="image/*">
+            <div class="photoActions">
+              <button class="button primary" data-photo-camera="${key}">写真を撮る</button>
+              <button class="button light" data-photo-file="${key}">ファイルから選択</button>
+            </div>
+            <textarea data-photo-note="${key}" placeholder="写真メモ">${escapeHtml(photos[0]?.note || "")}</textarea>
+          </section>
+        `;
+      }).join("");
+    }
+
+    function renderReport() {
+      const project = currentProject();
+      $("reportProjectName").textContent = project.name;
+      $("dailyDate").value = project.daily.date || today;
+      $("dailyWorker").value = project.daily.worker || "";
+      $("dailyWork").value = project.daily.work || "";
+      $("dailyCustomerNote").value = project.daily.customerNote || "";
+      $("dailyInternalNote").value = project.daily.internalNote || "";
+      $("reportPreview").innerHTML = `
+        <h3>作業完了のお知らせ</h3>
+        <p>${escapeHtml(project.customer)} 様</p>
+        <p>お世話になっております。下記のとおり作業状況をご報告いたします。</p>
+        <p><strong>現場：</strong>${escapeHtml(project.name)}<br>
+        <strong>作業日：</strong>${formatDate(project.daily.date || today)}<br>
+        <strong>作業者：</strong>${escapeHtml(project.daily.worker || "未入力")}</p>
+        <p><strong>作業内容</strong><br>${textWithBreaks(project.daily.work, "未入力")}</p>
+        <p><strong>ご確認事項</strong><br>${textWithBreaks(project.daily.customerNote, "特記事項はありません。")}</p>
+        <p>よろしくお願いいたします。</p>
+      `;
+    }
+
+    function renderMoney() {
+      const project = currentProject();
+      $("moneyProjectName").textContent = project.name;
+      $("moneyRows").innerHTML = project.money.map((row) => `
+        <div class="moneyRow">
+          <label>内容<input data-money-item="${row.id}" value="${escapeHtml(row.item)}"></label>
+          <label>数量<input data-money-qty="${row.id}" type="number" min="0" value="${row.qty}"></label>
+          <label>単価<input data-money-price="${row.id}" type="number" min="0" value="${row.price}"></label>
+          <button class="button danger" data-money-delete="${row.id}">削除</button>
+        </div>
+      `).join("");
+      const subtotal = projectTotal(project);
+      const taxed = Math.round(subtotal * 1.1);
+      $("subtotal").textContent = yen.format(subtotal);
+      $("taxedTotal").textContent = yen.format(taxed);
+      $("billingStatusText").textContent = project.paid ? "入金済み" : project.billed ? "請求済み" : "未請求";
+      $("unbilledAmount").textContent = project.billed ? yen.format(0) : yen.format(taxed);
+    }
+
+    function updateDetailFromForm() {
+      const project = currentProject();
+      project.name = $("detailName").value;
+      project.status = $("detailStatus").value;
+      project.customer = $("detailCustomer").value;
+      project.phone = $("detailPhone").value;
+      project.address = $("detailAddress").value;
+      project.owner = $("detailOwner").value;
+      project.start = $("detailStart").value;
+      project.end = $("detailEnd").value;
+      project.estimate = Number($("detailEstimate").value || 0);
+      project.memo = $("detailMemo").value;
+    }
+
+    function addProject() {
+      const id = `p${Date.now()}`;
+      state.projects.unshift({
+        id,
+        name: "新規案件",
+        customer: "",
+        phone: "",
+        address: "",
+        owner: "",
+        status: "相談",
+        start: today,
+        end: today,
+        estimate: 0,
+        billed: false,
+        paid: false,
+        memo: "",
+        completedSteps: [],
+        tasks: [],
+        photos: { before: [], during: [], after: [] },
+        daily: { date: today, worker: "", work: "", customerNote: "", internalNote: "" },
+        money: []
+      });
+      state.selectedId = id;
+      setView("projects");
+      showToast("現場を追加しました");
+    }
+
+    async function readPhoto(file) {
+      return new Promise((resolve, reject) => {
+        const image = new Image();
+        const reader = new FileReader();
+        reader.onerror = reject;
+        reader.onload = () => {
+          image.onerror = reject;
+          image.onload = () => {
+            const max = 1280;
+            const scale = Math.min(1, max / Math.max(image.width, image.height));
+            const canvas = document.createElement("canvas");
+            canvas.width = Math.round(image.width * scale);
+            canvas.height = Math.round(image.height * scale);
+            const context = canvas.getContext("2d");
+            context.drawImage(image, 0, 0, canvas.width, canvas.height);
+            resolve(canvas.toDataURL("image/jpeg", .82));
+          };
+          image.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function downloadText(filename, text) {
+      const blob = new Blob([text], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function importBackup(file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const nextState = JSON.parse(reader.result);
+          if (!nextState || !Array.isArray(nextState.projects) || nextState.projects.length === 0) throw new Error("invalid");
+          state = nextState;
+          state.projects.forEach(normalizeProject);
+          if (!currentProject()) state.selectedId = state.projects[0]?.id;
+          save();
+          render();
+          showToast("バックアップを読み込みました");
+        } catch {
+          showToast("読み込めないファイルです");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    document.addEventListener("click", async (event) => {
+      const nav = event.target.closest("[data-view], [data-view-jump]");
+      if (nav) setView(nav.dataset.view || nav.dataset.viewJump);
+
+      const select = event.target.closest("[data-select]");
+      if (select) {
+        state.selectedId = select.dataset.select;
+        if (select.dataset.jump) setView(select.dataset.jump);
+        render();
+        save();
+      }
+
+      const flow = event.target.closest("[data-flow]");
+      if (flow) {
+        const project = currentProject();
+        const step = flow.dataset.flow;
+        if (project.completedSteps.includes(step)) project.completedSteps = project.completedSteps.filter((item) => item !== step);
+        else project.completedSteps.push(step);
+        markDirty();
+        render();
+      }
+
+      const taskDelete = event.target.closest("[data-task-delete]");
+      if (taskDelete) {
+        const project = currentProject();
+        project.tasks = project.tasks.filter((task) => task.id !== taskDelete.dataset.taskDelete);
+        markDirty();
+        render();
+      }
+
+      const moneyDelete = event.target.closest("[data-money-delete]");
+      if (moneyDelete) {
+        const project = currentProject();
+        project.money = project.money.filter((row) => row.id !== moneyDelete.dataset.moneyDelete);
+        markDirty();
+        render();
+      }
+
+      const photoCamera = event.target.closest("[data-photo-camera]");
+      if (photoCamera) {
+        $(`camera-${photoCamera.dataset.photoCamera}`).click();
+      }
+
+      const photoFile = event.target.closest("[data-photo-file]");
+      if (photoFile) {
+        $(`file-${photoFile.dataset.photoFile}`).click();
+      }
+    });
+
+    document.addEventListener("change", async (event) => {
+      if (event.target.matches("[data-task-done]")) {
+        const task = currentProject().tasks.find((item) => item.id === event.target.dataset.taskDone);
+        if (task) task.done = event.target.checked;
+        markDirty();
+        render();
+      }
+
+      if ((event.target.id?.startsWith("file-") || event.target.id?.startsWith("camera-")) && event.target.files[0]) {
+        const key = event.target.id.replace("file-", "").replace("camera-", "");
+        const src = await readPhoto(event.target.files[0]);
+        currentProject().photos[key] = [{ src, note: "" }];
+        event.target.value = "";
+        markDirty();
+        render();
+      }
+
+      if (event.target.id === "importFile" && event.target.files[0]) {
+        importBackup(event.target.files[0]);
+        event.target.value = "";
+      }
+    });
+
+    document.addEventListener("input", (event) => {
+      const project = currentProject();
+      if (["detailName", "detailStatus", "detailCustomer", "detailPhone", "detailAddress", "detailOwner", "detailStart", "detailEnd", "detailEstimate", "detailMemo"].includes(event.target.id)) {
+        updateDetailFromForm();
+        markDirty();
+        renderTopMeta();
+        renderProjectList();
+      }
+      if (event.target.matches("[data-photo-note]")) {
+        const key = event.target.dataset.photoNote;
+        if (!project.photos[key][0]) project.photos[key][0] = { src: "", note: "" };
+        project.photos[key][0].note = event.target.value;
+        markDirty();
+      }
+      if (event.target.id?.startsWith("daily")) {
+        project.daily.date = $("dailyDate").value;
+        project.daily.worker = $("dailyWorker").value;
+        project.daily.work = $("dailyWork").value;
+        project.daily.customerNote = $("dailyCustomerNote").value;
+        project.daily.internalNote = $("dailyInternalNote").value;
+        markDirty();
+        renderReport();
+      }
+      const moneyId = event.target.dataset.moneyItem || event.target.dataset.moneyQty || event.target.dataset.moneyPrice;
+      if (moneyId) {
+        const row = project.money.find((item) => item.id === moneyId);
+        if (row) {
+          if (event.target.dataset.moneyItem) row.item = event.target.value;
+          if (event.target.dataset.moneyQty) row.qty = Number(event.target.value || 0);
+          if (event.target.dataset.moneyPrice) row.price = Number(event.target.value || 0);
+          markDirty();
+          renderMoney();
+        }
+      }
+    });
+
+    $("search").addEventListener("input", renderProjectList);
+    $("statusFilter").addEventListener("change", renderProjectList);
+    $("addProject").addEventListener("click", addProject);
+    $("addProjectTop").addEventListener("click", addProject);
+    $("saveProject").addEventListener("click", () => {
+      updateDetailFromForm();
+      save();
+      showToast("現場を保存しました");
+      render();
+    });
+    $("duplicateProject").addEventListener("click", () => {
+      const copy = JSON.parse(JSON.stringify(currentProject()));
+      copy.id = `p${Date.now()}`;
+      copy.name = `${copy.name} コピー`;
+      state.projects.unshift(copy);
+      state.selectedId = copy.id;
+      markDirty();
+      render();
+      showToast("現場を複製しました");
+    });
+    $("deleteProject").addEventListener("click", () => {
+      if (state.projects.length <= 1) return showToast("最後の案件は削除できません");
+      state.projects = state.projects.filter((project) => project.id !== state.selectedId);
+      state.selectedId = state.projects[0].id;
+      markDirty();
+      render();
+      showToast("案件を削除しました");
+    });
+    $("addTask").addEventListener("click", () => {
+      currentProject().tasks.push({ id: `t${Date.now()}`, date: today, title: "新しい作業", owner: currentProject().owner || "担当", done: false });
+      markDirty();
+      render();
+    });
+    $("clearDoneTasks").addEventListener("click", () => {
+      currentProject().tasks = currentProject().tasks.filter((task) => !task.done);
+      markDirty();
+      render();
+    });
+    $("saveDaily").addEventListener("click", () => {
+      save();
+      showToast("日報を保存しました");
+    });
+    $("markReported").addEventListener("click", () => {
+      currentProject().status = "請求待ち";
+      if (!currentProject().completedSteps.includes("報告")) currentProject().completedSteps.push("報告");
+      markDirty();
+      render();
+      showToast("報告済みにしました");
+    });
+    $("copyReport").addEventListener("click", async () => {
+      const text = $("reportPreview").innerText;
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast("報告文をコピーしました");
+      } catch {
+        showToast("コピーできませんでした");
+      }
+    });
+    $("addMoneyRow").addEventListener("click", () => {
+      currentProject().money.push({ id: `m${Date.now()}`, item: "新しい明細", qty: 1, price: 0 });
+      markDirty();
+      render();
+    });
+    $("markBilled").addEventListener("click", () => {
+      currentProject().billed = true;
+      currentProject().status = currentProject().status === "完了" ? "完了" : "請求待ち";
+      markDirty();
+      render();
+      showToast("請求済みにしました");
+    });
+    $("markPaid").addEventListener("click", () => {
+      currentProject().billed = true;
+      currentProject().paid = true;
+      currentProject().status = "完了";
+      markDirty();
+      render();
+      showToast("入金済みにしました");
+    });
+    $("copyInvoice").addEventListener("click", async () => {
+      const project = currentProject();
+      const text = `${project.customer} 様\n${project.name}\n請求額: ${yen.format(Math.round(projectTotal(project) * 1.1))}\n状態: ${project.paid ? "入金済み" : project.billed ? "請求済み" : "未請求"}`;
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast("請求メモをコピーしました");
+      } catch {
+        showToast("コピーできませんでした");
+      }
+    });
+    $("copySummary").addEventListener("click", async () => {
+      const summary = state.projects.map((p) => `${p.status}: ${p.name} / ${p.customer}`).join("\n");
+      try {
+        await navigator.clipboard.writeText(summary);
+        showToast("要約をコピーしました");
+      } catch {
+        showToast("コピーできませんでした");
+      }
+    });
+    $("exportData").addEventListener("click", () => {
+      downloadText(`qjworks-backup-${today}.json`, JSON.stringify(state, null, 2));
+      showToast("バックアップを書き出しました");
+    });
+    $("importData").addEventListener("click", () => $("importFile").click());
+    $("refreshWeather").addEventListener("click", () => fetchWeather());
+    $("resetDemo").addEventListener("click", () => {
+      if (!confirm("入力中のデータを消して、デモデータに戻します。よろしいですか？")) return;
+      state = JSON.parse(JSON.stringify(seed));
+      save();
+      render();
+      showToast("デモデータに戻しました");
+    });
+
+    setView(state.view || "dashboard");
+    fetchWeather();
+  </script>
+</body>
+</html>
