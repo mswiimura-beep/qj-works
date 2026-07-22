@@ -681,18 +681,123 @@
       border-radius: 8px;
       padding: 8px;
       display: grid;
-      gap: 3px;
+      grid-template-columns: 40px 1fr;
+      gap: 4px 8px;
       min-width: 0;
+      align-items: center;
     }
 
     .weatherMiniDay strong {
       font-size: 15px;
+      grid-column: 2;
     }
 
     .weatherMiniDay span {
       color: var(--muted);
       font-size: 13px;
       font-weight: 900;
+    }
+
+    .weatherMiniDay span:not(.weatherArt) {
+      grid-column: 2;
+    }
+
+    .weatherArt {
+      grid-row: 1 / span 4;
+      grid-column: 1;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      position: relative;
+      display: block;
+      background: #fff7d6;
+      border: 1px solid #ead28a;
+    }
+
+    .weatherArt::before,
+    .weatherArt::after {
+      content: "";
+      position: absolute;
+      display: block;
+    }
+
+    .weatherArt.sun::before {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #e9a62c;
+      left: 8px;
+      top: 8px;
+    }
+
+    .weatherArt.cloud,
+    .weatherArt.fog {
+      background: #eef3f8;
+      border-color: #cdd9e2;
+    }
+
+    .weatherArt.cloud::before,
+    .weatherArt.fog::before,
+    .weatherArt.rain::before,
+    .weatherArt.snow::before,
+    .weatherArt.storm::before {
+      width: 24px;
+      height: 11px;
+      border-radius: 999px;
+      background: #9fb2bd;
+      left: 7px;
+      top: 15px;
+    }
+
+    .weatherArt.cloud::after,
+    .weatherArt.fog::after,
+    .weatherArt.rain::after,
+    .weatherArt.snow::after,
+    .weatherArt.storm::after {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: #9fb2bd;
+      left: 11px;
+      top: 9px;
+    }
+
+    .weatherArt.partly::before {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #e9a62c;
+      left: 6px;
+      top: 7px;
+    }
+
+    .weatherArt.partly::after {
+      width: 23px;
+      height: 11px;
+      border-radius: 999px;
+      background: #9fb2bd;
+      left: 9px;
+      top: 17px;
+    }
+
+    .weatherArt.rain,
+    .weatherArt.storm {
+      background: #e8f2f8;
+      border-color: #b9cfdd;
+    }
+
+    .weatherArt.rain {
+      background: #dceff7;
+    }
+
+    .weatherArt.snow {
+      background: #f3f8fa;
+      border-color: #c9dbe3;
+    }
+
+    .weatherArt.storm {
+      background: #f7efd4;
+      border-color: #d0b24f;
     }
 
     .photoGrid {
@@ -1708,6 +1813,17 @@
       return ["確認", "天"];
     }
 
+    function weatherArtClass(code) {
+      if (code === 0) return "sun";
+      if ([1, 2].includes(code)) return "partly";
+      if ([3].includes(code)) return "cloud";
+      if ([45, 48, 51, 53, 55, 56, 57].includes(code)) return "fog";
+      if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return "rain";
+      if ([71, 73, 75, 77, 85, 86].includes(code)) return "snow";
+      if ([95, 96, 99].includes(code)) return "storm";
+      return "cloud";
+    }
+
     function fallbackWeather() {
       return Array.from({ length: 7 }, (_, index) => {
         const date = new Date(today + "T00:00:00");
@@ -1726,11 +1842,13 @@
 
     function renderWeather() {
       const rows = (currentWeather.length ? currentWeather : fallbackWeather()).slice(0, 2).map((day, index) => {
-        const [name, icon] = weatherName(Number(day.code));
+        const code = Number(day.code);
+        const [name] = weatherName(code);
         const rain = Number(day.rain || 0);
         return `
           <div class="weatherMiniDay">
-            <strong>${index === 0 ? "今日" : "明日"} ${icon}</strong>
+            <span class="weatherArt ${weatherArtClass(code)}" aria-hidden="true"></span>
+            <strong>${index === 0 ? "今日" : "明日"}</strong>
             <span>${name}</span>
             <span>${Math.round(day.max)}°/${Math.round(day.min)}° 降水${day.rain ?? "-"}%</span>
             <span>${rain >= 60 ? "外作業注意" : "確認"}</span>
