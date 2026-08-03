@@ -1,0 +1,614 @@
+.portfolioPage {
+  overflow: hidden;
+}
+
+.portfolioHero {
+  position: relative;
+  min-height: 720px;
+  display: grid;
+  align-items: center;
+  color: var(--paper);
+  background:
+    linear-gradient(115deg, rgba(18, 30, 35, 0.98) 0%, rgba(31, 67, 78, 0.96) 56%, rgba(86, 148, 165, 0.9) 100%);
+  border-bottom: 1px solid var(--border-medium);
+}
+
+.portfolioHero::after {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  right: -130px;
+  top: -110px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+}
+
+.portfolioHeroInner {
+  position: relative;
+  z-index: 2;
+  width: min(1120px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 110px 0 128px;
+}
+
+.portfolioHero .eyebrow {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.portfolioHero h1 {
+  max-width: 940px;
+  margin: 0 0 36px;
+  color: var(--paper);
+  font-size: clamp(52px, 8vw, 106px);
+  line-height: 1.08;
+}
+
+.portfolioLead {
+  max-width: 780px;
+  margin-bottom: 38px;
+  color: rgba(255, 255, 255, 0.84);
+  font-size: clamp(17px, 1.7vw, 21px);
+  line-height: 1.95;
+  font-weight: 500;
+}
+
+.portfolioPrimary {
+  color: #17303a;
+  background: #fffdf8;
+  border-color: #fffdf8;
+}
+
+.portfolioPrimary:hover {
+  color: #fffdf8;
+  background: transparent;
+}
+
+.portfolioSecondary {
+  color: #fffdf8;
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.portfolioSecondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.portfolioHeroMark {
+  position: absolute;
+  right: clamp(24px, 5vw, 76px);
+  bottom: 34px;
+  display: flex;
+  gap: 24px;
+  color: rgba(255, 255, 255, 0.44);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+
+.honestyNote {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
+  padding: 28px clamp(24px, 5vw, 72px);
+  color: var(--text);
+  background: #f4e36a;
+  border-bottom: 1px solid #d3bd2e;
+}
+
+.honestyNote p {
+  margin: 0;
+  line-height: 1.75;
+  font-weight: 650;
+}
+
+.honestyLabel {
+  font-size: 12px;
+  font-weight: 850 !important;
+  letter-spacing: 0.06em;
+}
+
+.portfolioSection {
+  width: min(1120px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 112px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.portfolioSectionHeader {
+  max-width: 860px;
+  margin-bottom: 58px;
+}
+
+.portfolioSectionHeader.compact {
+  max-width: 720px;
+}
+
+.portfolioSectionHeader h2,
+.portfolioContact h2 {
+  margin-bottom: 24px;
+  color: var(--text);
+  font-family: Georgia, "Hiragino Mincho ProN", "Yu Mincho", serif;
+  font-size: clamp(38px, 5vw, 66px);
+  line-height: 1.25;
+}
+
+.portfolioSectionHeader > p:not(.eyebrow),
+.portfolioContact p {
+  color: var(--text-secondary);
+  font-size: 17px;
+  line-height: 1.9;
+  font-weight: 500;
+}
+
+.caseList {
+  display: grid;
+  gap: 1px;
+  border: 1px solid var(--border-medium);
+  background: var(--border-medium);
+}
+
+.caseStudy {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  background: var(--background);
+}
+
+.caseMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 40px 32px;
+  border-right: 1px solid var(--border-subtle);
+}
+
+.caseNumber {
+  margin-bottom: 28px;
+  color: var(--text);
+  font-family: Georgia, serif;
+  font-size: 54px;
+  line-height: 1;
+}
+
+.caseStatus,
+.caseType {
+  display: inline-flex;
+  padding: 6px 10px;
+  border: 1px solid var(--border-medium);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.caseStatus.live {
+  color: #173b2a;
+  background: #d7eadb;
+  border-color: #a9ccb1;
+}
+
+.caseStatus.prototype {
+  color: #5a3d18;
+  background: #f3e4c3;
+  border-color: #d9bd82;
+}
+
+.caseType {
+  color: var(--text-secondary);
+  background: var(--surface);
+}
+
+.caseMain {
+  padding: 48px;
+}
+
+.caseCategory,
+.otherLabel {
+  margin-bottom: 12px;
+  color: var(--text-tertiary);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+}
+
+.caseMain h3 {
+  margin-bottom: 20px;
+  color: var(--text);
+  font-family: Georgia, "Hiragino Mincho ProN", "Yu Mincho", serif;
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.3;
+}
+
+.caseSummary {
+  max-width: 760px;
+  margin-bottom: 36px;
+  color: var(--text-secondary);
+  font-size: 17px;
+  line-height: 1.9;
+  font-weight: 500;
+}
+
+.caseDetails {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-bottom: 34px;
+  border: 1px solid var(--border-subtle);
+  background: var(--border-subtle);
+}
+
+.caseDetails > div {
+  padding: 24px;
+  background: var(--surface);
+}
+
+.caseDetails h4 {
+  margin: 0 0 12px;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.caseDetails p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.caseLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 48px;
+  padding: 12px 18px;
+  color: var(--paper);
+  background: var(--stone-dark);
+  border: 1px solid var(--stone-dark);
+  font-weight: 800;
+}
+
+.caseLink:hover {
+  color: var(--text);
+  background: transparent;
+}
+
+.casePending {
+  display: inline-block;
+  margin: 0;
+  padding: 12px 16px;
+  color: var(--text-secondary);
+  background: var(--surface);
+  border: 1px solid var(--border-medium);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.approachSection {
+  width: 100%;
+  max-width: none;
+  padding: 112px clamp(24px, 5vw, 72px);
+  background: var(--surface);
+}
+
+.approachSection .portfolioSectionHeader,
+.approachGrid {
+  width: min(1120px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.approachGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--border-medium);
+  background: var(--border-medium);
+}
+
+.approachGrid li {
+  min-height: 280px;
+  padding: 34px;
+  background: var(--background);
+}
+
+.approachGrid span {
+  display: block;
+  margin-bottom: 42px;
+  color: var(--text-tertiary);
+  font-family: Georgia, serif;
+  font-size: 25px;
+}
+
+.approachGrid h3,
+.otherGrid h3 {
+  margin-bottom: 16px;
+  color: var(--text);
+  font-family: Georgia, "Hiragino Mincho ProN", "Yu Mincho", serif;
+  font-size: 25px;
+  line-height: 1.45;
+}
+
+.approachGrid p,
+.otherGrid p:not(.otherLabel) {
+  color: var(--text-secondary);
+  line-height: 1.85;
+  font-weight: 500;
+}
+
+.otherGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.characterSection {
+  width: 100%;
+  max-width: none;
+  padding: 112px clamp(24px, 5vw, 72px);
+  background: #f3eee6;
+}
+
+.characterSection .portfolioSectionHeader,
+.characterShowcase,
+.characterNote {
+  width: min(1120px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.characterShowcase {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.characterFeature,
+.characterCard {
+  background: var(--paper);
+  border: 1px solid #ded3c4;
+}
+
+.characterFeature {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  grid-column: 1 / -1;
+}
+
+.characterFeature > img {
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  object-fit: cover;
+  object-position: center;
+  border-right: 1px solid #ded3c4;
+}
+
+.characterFeature > div,
+.characterCardBody {
+  padding: 36px;
+}
+
+.characterMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.characterMeta span {
+  display: inline-flex;
+  padding: 6px 10px;
+  color: #50483e;
+  background: #f6e7c9;
+  border: 1px solid #ddc69a;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.characterFeature h3,
+.characterCard h3 {
+  margin-bottom: 18px;
+  color: var(--text);
+  font-family: Georgia, "Hiragino Mincho ProN", "Yu Mincho", serif;
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1.35;
+}
+
+.characterFeature p:not(.otherLabel),
+.characterCard p:not(.otherLabel),
+.characterNote {
+  color: var(--text-secondary);
+  line-height: 1.85;
+  font-weight: 500;
+}
+
+.characterPoints {
+  display: grid;
+  gap: 0;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid #ded3c4;
+}
+
+.characterPoints li {
+  padding: 13px 0;
+  color: var(--text);
+  border-bottom: 1px solid #ded3c4;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.6;
+}
+
+.characterCard > img,
+.characterCard > video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #1b2528;
+  border-bottom: 1px solid #ded3c4;
+}
+
+.characterCard > video {
+  object-fit: contain;
+}
+
+.characterNote {
+  margin-top: 22px;
+  margin-bottom: 0;
+  font-size: 13px;
+}
+
+.otherGrid article {
+  min-height: 270px;
+  padding: 32px;
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+}
+
+.otherGrid .textLink {
+  display: inline-block;
+  margin-top: 14px;
+}
+
+.portfolioContact {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 64px;
+  align-items: center;
+  padding: 112px clamp(24px, 5vw, 72px);
+  color: var(--paper);
+  background: #17303a;
+}
+
+.portfolioContact .eyebrow,
+.portfolioContact h2,
+.portfolioContact p {
+  color: var(--paper);
+}
+
+.portfolioContact > div {
+  max-width: 860px;
+}
+
+.portfolioContact .portfolioPrimary {
+  min-width: 230px;
+}
+
+@media (max-width: 900px) {
+  .caseStudy {
+    grid-template-columns: 1fr;
+  }
+
+  .caseMeta {
+    flex-direction: row;
+    align-items: center;
+    padding: 24px 28px;
+    border-right: 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .caseNumber {
+    margin: 0 auto 0 0;
+    font-size: 38px;
+  }
+
+  .caseDetails,
+  .approachGrid,
+  .otherGrid,
+  .characterShowcase,
+  .characterFeature,
+  .portfolioContact {
+    grid-template-columns: 1fr;
+  }
+
+  .characterFeature > img {
+    min-height: auto;
+    border-right: 0;
+    border-bottom: 1px solid #ded3c4;
+  }
+}
+
+@media (max-width: 560px) {
+  .portfolioHero {
+    min-height: 700px;
+  }
+
+  .portfolioHeroInner {
+    width: calc(100% - 32px);
+    padding: 72px 0 120px;
+  }
+
+  .portfolioHero h1 {
+    font-size: clamp(44px, 14vw, 62px);
+  }
+
+  .portfolioLead {
+    font-size: 16px;
+  }
+
+  .portfolioHeroMark {
+    left: 16px;
+    right: auto;
+    gap: 16px;
+  }
+
+  .honestyNote {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 24px 16px;
+  }
+
+  .portfolioSection {
+    width: calc(100% - 32px);
+    padding: 76px 0;
+  }
+
+  .portfolioSectionHeader h2,
+  .portfolioContact h2 {
+    font-size: 34px;
+  }
+
+  .caseMeta {
+    flex-wrap: wrap;
+    padding: 20px;
+  }
+
+  .caseMain {
+    padding: 28px 20px;
+  }
+
+  .caseMain h3 {
+    font-size: 31px;
+  }
+
+  .caseDetails {
+    grid-template-columns: 1fr;
+  }
+
+  .approachSection {
+    padding: 76px 16px;
+  }
+
+  .characterSection {
+    padding: 76px 16px;
+  }
+
+  .characterFeature > div,
+  .characterCardBody {
+    padding: 26px;
+  }
+
+  .approachGrid li,
+  .otherGrid article {
+    min-height: auto;
+    padding: 26px;
+  }
+
+  .portfolioContact {
+    padding: 76px 16px;
+  }
+}
