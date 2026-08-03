@@ -514,7 +514,7 @@ h1 {
 }
 
 .sectionHeader {
-  max-width: 760px;
+  max-width: 1120px;
   margin-bottom: 48px;
 }
 
@@ -525,6 +525,13 @@ h1 {
   font-size: clamp(34px, 4.4vw, 58px);
   line-height: 1.25;
   font-weight: 700;
+  text-wrap: balance;
+}
+
+.sectionHeader p,
+.copyBlock p,
+.ctaBand p {
+  text-wrap: pretty;
 }
 
 .aboutSection {
@@ -1107,7 +1114,8 @@ h1 {
 .ctaBand .ctaHeadline {
   font-size: clamp(36px, 4.2vw, 56px);
   line-height: 1.18;
-  white-space: nowrap;
+  white-space: normal;
+  text-wrap: balance;
 }
 
 .footer {
