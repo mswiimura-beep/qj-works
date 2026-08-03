@@ -1141,6 +1141,10 @@ h1 {
   font-weight: 500;
 }
 
+.noOrphan {
+  white-space: nowrap;
+}
+
 @media (max-width: 1040px) {
   .serviceGrid,
   .priceGrid {
