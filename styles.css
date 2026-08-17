@@ -214,7 +214,7 @@ button:focus-visible {
   position: relative;
   width: min(1040px, calc(100% - 48px));
   margin: 0 auto;
-  padding: 96px 0 120px;
+  padding: 48px 0 100px;
 }
 
 .eyebrow {
@@ -266,17 +266,17 @@ h1 {
 }
 
 .heroLogo {
-  width: min(720px, 88vw);
+  width: min(440px, 78vw);
   height: auto;
-  margin: -18px 0 28px;
+  margin: -18px 0 16px;
 }
 
 .lead {
   max-width: 760px;
-  margin-bottom: 42px;
+  margin-bottom: 28px;
   color: rgba(255, 253, 248, 0.88);
-  font-size: clamp(18px, 1.7vw, 22px);
-  line-height: 1.9;
+  font-size: clamp(17px, 1.55vw, 20px);
+  line-height: 1.75;
   font-weight: 500;
 }
 
@@ -285,6 +285,17 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+.offerHeadline {
+  max-width: 820px;
+  margin: 8px 0 24px;
+  color: var(--paper);
+  font-family: Georgia, "Hiragino Mincho ProN", "Yu Mincho", serif;
+  font-size: clamp(38px, 4.8vw, 58px);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.03em;
 }
 
 .weatherCard {
@@ -532,6 +543,35 @@ h1 {
 .copyBlock p,
 .ctaBand p {
   text-wrap: pretty;
+}
+
+.offerChecklist {
+  display: grid;
+  gap: 10px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.offerChecklist li {
+  position: relative;
+  padding-left: 26px;
+  color: var(--text);
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+.offerChecklist li::before {
+  position: absolute;
+  left: 0;
+  content: "✓";
+}
+
+.ctaBand .offerLimit {
+  margin-top: 18px;
+  color: var(--text-tertiary);
+  font-size: 13px;
+  line-height: 1.7;
 }
 
 .aboutSection {
@@ -971,7 +1011,7 @@ h1 {
 
 .priceGrid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1px;
   border: 1px solid var(--border-medium);
   background: var(--border-medium);
