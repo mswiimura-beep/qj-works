@@ -1304,6 +1304,19 @@ h1 {
 }
 
 @media (max-width: 560px) {
+  .nav {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px 8px;
+    overflow-x: visible;
+    font-size: 12px;
+  }
+
+  .nav a {
+    padding: 6px 2px;
+    text-align: center;
+  }
+
   .hero {
     min-height: 760px;
   }
