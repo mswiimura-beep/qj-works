@@ -402,6 +402,17 @@ h1 {
   background: rgba(255, 253, 248, 0.1);
 }
 
+.button.outline {
+  color: var(--text);
+  background: transparent;
+  border-color: var(--stone);
+}
+
+.button.outline:hover {
+  color: var(--paper);
+  background: var(--stone);
+}
+
 .introBand {
   position: relative;
   z-index: 2;
@@ -1041,6 +1052,11 @@ h1 {
   color: var(--text-tertiary) !important;
   font-size: 13px;
   line-height: 1.65 !important;
+}
+
+.priceButton {
+  width: 100%;
+  margin-top: 24px;
 }
 
 .noteHighlights {
