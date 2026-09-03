@@ -1,4 +1,16 @@
 User-agent: *
 Allow: /
 
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
 Sitemap: https://mswiimura-beep.github.io/qj-works/sitemap.xml

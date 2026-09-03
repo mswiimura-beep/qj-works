@@ -1013,6 +1013,48 @@ h1 {
   background: var(--surface);
 }
 
+.faqSection {
+  width: 100%;
+  max-width: none;
+  padding: 108px clamp(24px, 5vw, 72px);
+  background: var(--paper);
+}
+
+.faqSection .sectionHeader,
+.faqGrid {
+  width: min(1120px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--border-subtle);
+  background: var(--border-subtle);
+}
+
+.faqGrid article {
+  min-height: 220px;
+  padding: 30px;
+  background: var(--background);
+}
+
+.faqGrid h3 {
+  margin: 0 0 14px;
+  color: var(--text);
+  font-size: 20px;
+  line-height: 1.55;
+}
+
+.faqGrid p {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.9;
+  font-weight: 500;
+}
+
 .priceSection .sectionHeader,
 .priceGrid {
   width: min(1120px, 100%);
@@ -1238,6 +1280,7 @@ h1 {
   .newsBand,
   .noteHighlights,
   .aboutLayout,
+  .faqGrid,
   .shootingLayout,
   .split,
   .workGrid,
@@ -1262,6 +1305,7 @@ h1 {
   .introGrid article,
   .serviceCard,
   .priceCard,
+  .faqGrid article,
   .appCard {
     min-height: auto;
   }
@@ -1385,6 +1429,7 @@ h1 {
   }
 
   .serviceGrid,
+  .faqGrid,
   .priceGrid {
     grid-template-columns: 1fr;
   }
