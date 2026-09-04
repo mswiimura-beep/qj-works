@@ -6,5 +6,6 @@ QJ Worksの公式ホームページです。青森県内の事業所や個人事
 
 - `index.html`: 業務改善サービスの入口
 - `cancer-support.html`: がん相談、がん教育、事業所向け出前講座
+- `about.html`: QJ-Worksの方針、運営者、連絡先
 - `portfolio.html`: 制作ポートフォリオ
 - `reservation-demo.html`: 予約管理スプレッドシートの自主制作デモ

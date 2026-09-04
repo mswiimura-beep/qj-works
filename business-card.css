@@ -1,0 +1,184 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 1654px;
+  height: 1000px;
+  margin: 0;
+  overflow: hidden;
+  background: #f7f3ec;
+  color: #202421;
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "Noto Sans JP", Arial, sans-serif;
+}
+
+.card {
+  position: relative;
+  width: 1654px;
+  height: 1000px;
+  padding: 106px 112px 88px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 90% 5%, rgba(235, 104, 43, 0.16), transparent 28%),
+    linear-gradient(135deg, #fffdf8 0%, #f3ecdf 100%);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 24px;
+  background: #244d40;
+}
+
+.topline {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.logo {
+  width: 282px;
+  height: auto;
+}
+
+.divider {
+  width: 1px;
+  height: 58px;
+  background: #b5afa5;
+}
+
+.role {
+  margin: 0;
+  color: #645f59;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.03em;
+}
+
+.identity {
+  margin-top: 84px;
+}
+
+.name {
+  margin: 0;
+  font-size: 75px;
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+
+.nameLatin {
+  margin: 18px 0 0;
+  color: #605c57;
+  font-size: 29px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.credential {
+  display: inline-block;
+  margin: 22px 0 0;
+  padding: 8px 18px;
+  border: 1px solid #9faaa5;
+  border-radius: 999px;
+  color: #244d40;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.statement {
+  max-width: 1000px;
+  margin: 38px 0 0;
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.48;
+  letter-spacing: 0.015em;
+}
+
+.services {
+  margin: 26px 0 0;
+  color: #4c514e;
+  font-size: 27px;
+  font-weight: 650;
+  letter-spacing: 0.025em;
+}
+
+.email {
+  position: absolute;
+  left: 112px;
+  bottom: 86px;
+  margin: 0;
+  color: #244d40;
+  font-size: 30px;
+  font-weight: 750;
+}
+
+.qrBlock {
+  position: absolute;
+  right: 98px;
+  bottom: 80px;
+  width: 258px;
+  text-align: center;
+}
+
+.qrBlock img {
+  display: block;
+  width: 258px;
+  height: 258px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #d8d1c6;
+  border-radius: 16px;
+}
+
+.qrBlock p {
+  margin: 12px 0 0;
+  color: #504c47;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.card.en .identity {
+  margin-top: 78px;
+}
+
+.card.en .name {
+  font-size: 69px;
+  letter-spacing: 0.015em;
+}
+
+.card.en .statement {
+  max-width: 1080px;
+  font-size: 32px;
+  line-height: 1.45;
+}
+
+.card.en .role {
+  font-size: 22px;
+}
+
+.card.en .credential {
+  font-size: 19px;
+}
+
+.card.en .services {
+  font-size: 25px;
+}
+
+@page {
+  size: 91mm 55mm;
+  margin: 0;
+}
+
+@media print {
+  html,
+  body,
+  .card {
+    width: 91mm;
+    height: 55mm;
+  }
+}

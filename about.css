@@ -1,0 +1,225 @@
+.aboutPage {
+  max-width: 100%;
+  overflow-x: hidden;
+  background: #f8f5ef;
+  color: #22211f;
+}
+
+.aboutPage main {
+  overflow: hidden;
+}
+
+.aboutHero {
+  min-height: 620px;
+  display: grid;
+  align-items: center;
+  padding: 112px clamp(24px, 8vw, 128px);
+  background:
+    radial-gradient(circle at 82% 18%, rgba(235, 104, 43, 0.18), transparent 30%),
+    linear-gradient(135deg, #fffdf8 0%, #f2eadb 100%);
+}
+
+.aboutHero > div {
+  width: 100%;
+  max-width: 1100px;
+  min-width: 0;
+}
+
+.aboutHero h1 {
+  max-width: 1100px;
+  margin: 18px 0 24px;
+  font-size: clamp(2.7rem, 5.1vw, 4.5rem);
+  line-height: 1.18;
+  letter-spacing: -0.045em;
+}
+
+.aboutHero .lead {
+  max-width: 760px;
+  color: #514c47;
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  line-height: 2;
+}
+
+.aboutTwoPaths,
+.aboutProfile,
+.aboutMethod,
+.aboutContact {
+  padding: 100px clamp(24px, 8vw, 128px);
+}
+
+.aboutPathGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.aboutPathGrid article {
+  padding: clamp(28px, 5vw, 56px);
+  border: 1px solid #d8d0c4;
+  border-radius: 24px;
+  background: #fff;
+}
+
+.aboutPathGrid .cancerPath {
+  border-color: #efad83;
+  background: #fff7f0;
+}
+
+.pathNumber {
+  color: #777069;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.aboutPathGrid h3 {
+  margin: 14px 0 18px;
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+}
+
+.aboutPathGrid p,
+.profileCopy p,
+.aboutContactBody p {
+  line-height: 1.9;
+}
+
+.aboutProfile {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.7fr) minmax(0, 1.4fr);
+  gap: clamp(36px, 8vw, 120px);
+  background: #202724;
+  color: #fff;
+}
+
+.aboutProfile h2 {
+  margin-top: 16px;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.25;
+}
+
+.aboutProfile h2 span {
+  color: #c9d1cc;
+  font-size: 0.48em;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.profileCopy {
+  max-width: 760px;
+}
+
+.aboutFacts {
+  display: grid;
+  gap: 10px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aboutFacts li {
+  padding: 14px 18px;
+  border-left: 3px solid #e9662d;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.aboutMethod ol {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 42px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aboutMethod li {
+  min-height: 230px;
+  padding: 30px;
+  border-top: 4px solid #2d5a4c;
+  background: #fff;
+}
+
+.aboutMethod li span {
+  display: block;
+  margin-bottom: 28px;
+  color: #918b84;
+  font-weight: 800;
+}
+
+.aboutMethod li strong {
+  display: block;
+  font-size: 1.6rem;
+}
+
+.aboutMethod li p {
+  margin-top: 12px;
+  line-height: 1.8;
+}
+
+.aboutContact {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(36px, 8vw, 100px);
+  background: #efe8dc;
+}
+
+.aboutContact h2 {
+  margin-top: 14px;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.35;
+}
+
+.emailLink {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: #1f4b3d;
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-weight: 800;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+}
+
+.cancerAboutButton {
+  background: #e9662d;
+  color: #fff;
+}
+
+@media (max-width: 760px) {
+  .aboutHero {
+    min-height: auto;
+    padding-top: 88px;
+    padding-bottom: 88px;
+  }
+
+  .aboutHero h1 br {
+    display: none;
+  }
+
+  .aboutHero h1 {
+    max-width: 100%;
+    font-size: 2rem;
+    line-height: 1.32;
+    overflow-wrap: anywhere;
+    word-break: break-all;
+  }
+
+  .aboutHero .lead {
+    width: 100%;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .aboutPathGrid,
+  .aboutProfile,
+  .aboutMethod ol,
+  .aboutContact {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutTwoPaths,
+  .aboutProfile,
+  .aboutMethod,
+  .aboutContact {
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+}
