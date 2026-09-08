@@ -1288,7 +1288,28 @@ h1 {
 }
 
 .topCta {
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 340px);
   border-top: 0;
+}
+
+.topCta .contactActions {
+  display: grid;
+  gap: 12px;
+}
+
+.topCta .offerChecklist li {
+  color: var(--paper);
+}
+
+.topCta .offerLimit {
+  color: #d6d3d1;
+}
+
+.topCta .consultationHint {
+  margin: 0 0 8px;
+  color: #d6d3d1;
+  font-size: 13px;
+  line-height: 1.7;
 }
 
 .ctaBand .eyebrow {
