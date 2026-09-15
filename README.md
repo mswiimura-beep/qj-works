@@ -9,3 +9,4 @@ QJ Worksの公式ホームページです。青森県内の事業所や個人事
 - `about.html`: QJ-Worksの方針、運営者、連絡先
 - `portfolio.html`: 制作ポートフォリオ
 - `reservation-demo.html`: 予約管理スプレッドシートの自主制作デモ
+- `google-map-support.html`: Googleマップ店舗情報の整理・改善サービス
