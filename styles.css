@@ -1969,3 +1969,71 @@ h1 {
   }
 
 }
+
+
+/* PHP2Shell support notice on the homepage */
+.phpSecurityBand {
+  padding: 88px clamp(24px, 5vw, 72px);
+  background: var(--surface);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.phpSecurityInner { width: min(1120px, 100%); margin: 0 auto; }
+.phpSecurityHeader { max-width: 860px; margin: 0 auto 36px; text-align: center; }
+.phpSecurityHeader .eyebrow { margin-bottom: 16px; color: #8f3b25; }
+.phpSecurityHeader h2 {
+  margin: 0 0 20px; color: var(--text);
+  font-family: Georgia, "Hiragino Mincho ProN", "Yu Mincho", serif;
+  font-size: clamp(36px, 5vw, 60px); line-height: 1.3;
+}
+.phpSecurityHeader > p:last-child {
+  margin: 0; color: var(--text-secondary); font-size: 17px; line-height: 1.9;
+}
+.phpSecurityGrid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px;
+  border: 1px solid var(--border-medium); background: var(--border-medium);
+}
+.phpSecurityGrid article {
+  padding: 28px; background: var(--background); border-top: 4px solid #a04a2e;
+}
+.phpSecurityGrid h3, .phpSecurityDetails h3 {
+  margin: 0 0 16px; color: var(--text); font-size: 21px; line-height: 1.5;
+}
+.phpSecurityGrid p, .phpSecurityDetails p, .phpSecuritySmall {
+  color: var(--text-secondary); line-height: 1.8;
+}
+.phpSecurityGrid p:last-child, .phpSecurityDetails p:last-child { margin-bottom: 0; }
+.phpSecurityGrid ul, .phpSecurityDetails ul, .phpSecurityDetails ol {
+  display: grid; gap: 10px; margin: 0; padding-left: 1.35em;
+  color: var(--text-secondary); line-height: 1.75;
+}
+.phpSecurityGrid code {
+  overflow-wrap: anywhere; color: #76351f; background: #f3e8df;
+  padding: 2px 5px; border-radius: 3px;
+}
+.phpSecurityDetails {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px;
+  margin-top: 24px; padding: 30px; background: var(--paper);
+  border: 1px solid var(--border-subtle);
+}
+.phpSecurityDetails h3 { margin-top: 0; }
+.phpSecurityDetails p { margin: 16px 0 0; }
+.phpSecurityWarning {
+  margin: 24px 0 0; padding: 18px 20px; color: #633921;
+  background: #fff4eb; border-left: 4px solid #b85e35; line-height: 1.85;
+}
+.phpSecurityActions { display: flex; justify-content: center; margin: 26px 0 16px; }
+.phpSecurityActions .button { text-align: center; }
+.phpSecuritySmall { margin: 0; font-size: 13px; }
+.phpSecuritySmall a { color: #76351f; text-decoration: underline; text-underline-offset: 3px; }
+
+@media (max-width: 880px) {
+  .phpSecurityGrid, .phpSecurityDetails { grid-template-columns: 1fr; }
+  .phpSecurityDetails { gap: 24px; padding: 26px; }
+}
+@media (max-width: 560px) {
+  .phpSecurityBand { padding: 72px 16px; }
+  .phpSecurityHeader > p:last-child { font-size: 16px; }
+  .phpSecurityGrid article, .phpSecurityDetails { padding: 24px; }
+  .phpSecurityActions .button { width: 100%; }
+}
