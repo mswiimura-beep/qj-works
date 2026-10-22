@@ -2032,7 +2032,7 @@ h1 {
   .phpSecurityDetails { gap: 24px; padding: 26px; }
 }
 @media (max-width: 560px) {
-  .phpSecurityBand { padding: 72px 16px; }
+  .phpSecurityBand { padding: 72px 16px; scroll-margin-top: 250px; }
   .phpSecurityHeader > p:last-child { font-size: 16px; }
   .phpSecurityGrid article, .phpSecurityDetails { padding: 24px; }
   .phpSecurityActions .button { width: 100%; }
